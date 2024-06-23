@@ -17,6 +17,7 @@ export default () => {
   const handleSubmit = (e) => {
     e.preventDefault()
     fetchStream()
+    setMessage(`${prompt}\n`)
     setPrompt('')
   }
 
