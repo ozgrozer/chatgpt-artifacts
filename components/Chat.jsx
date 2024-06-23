@@ -1,4 +1,6 @@
 import { useState, useCallback } from 'react'
+import { Prism as SyntaxHighlighter } from 'react-syntax-highlighter'
+import { oneDark } from 'react-syntax-highlighter/dist/cjs/styles/prism'
 
 import CodeRenderer from './CodeRenderer'
 import styles from './../styles/chat.module.scss'
@@ -219,12 +221,14 @@ export default () => {
           </div>
 
           {codeBlocks.map((block, index) => (
-            <pre
+            <SyntaxHighlighter
               key={index}
+              style={oneDark}
+              language={block.language}
               className={clx(styles.tabItem, activeButton === block.language ? styles.active : '')}
             >
               {block.code}
-            </pre>
+            </SyntaxHighlighter>
           ))}
         </div>
       </div>
