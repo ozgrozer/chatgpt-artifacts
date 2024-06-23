@@ -86,6 +86,9 @@
       &.active {
         display: block;
       }
+      &.preview {
+        background-color: #fff;
+      }
     }
   }
 }

@@ -100,7 +100,7 @@ export default () => {
         </div>
 
         <div className={styles.tabContent}>
-          <div className={clx(styles.tabItem, activeButton === 'preview' ? styles.active : '')}>
+          <div className={clx(styles.tabItem, styles.preview, activeButton === 'preview' ? styles.active : '')}>
             <CodeRenderer codeBlocks={codeBlocks} />
           </div>
 
