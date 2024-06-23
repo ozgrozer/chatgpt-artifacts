@@ -11,10 +11,11 @@
 
   pre {
     color: #fff;
-    font-size: 14px;
     padding: 20px;
+    font-size: 14px;
     border-radius: 10px;
     white-space: pre-wrap;
+    border: 1px solid #3E3E38;
     background-color: #343432;
   }
 }
@@ -55,7 +56,7 @@
     border-top-left-radius: 10px;
     border-top-right-radius: 10px;
 
-    button {
+    .tabItem {
       color: #fff;
       height: 30px;
       border: none;
@@ -73,9 +74,8 @@
   }
 
   .tabContent {
-    pre {
+    .tabItem {
       display: none;
-      border: 1px solid #3E3E38;
       background-color: #282C34;
       border-top-left-radius: 0;
       border-top-right-radius: 0;

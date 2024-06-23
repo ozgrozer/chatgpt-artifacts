@@ -196,7 +196,7 @@ export default () => {
         <div className={styles.tabHeader}>
           <button
             onClick={() => setActiveButton('preview')}
-            className={activeButton === 'preview' ? styles.active : ''}
+            className={clx(styles.tabItem, activeButton === 'preview' ? styles.active : '')}
           >
             Preview
           </button>
@@ -205,7 +205,7 @@ export default () => {
             <button
               key={index}
               onClick={() => setActiveButton(block.language)}
-              className={activeButton === block.language ? styles.active : ''}
+              className={clx(styles.tabItem, activeButton === block.language ? styles.active : '')}
             >
               {block.language}
             </button>
@@ -213,10 +213,14 @@ export default () => {
         </div>
 
         <div className={styles.tabContent}>
+          <div className={clx(styles.tabItem, activeButton === 'preview' ? styles.active : '')}>
+            as
+          </div>
+
           {codeBlocks.map((block, index) => (
             <pre
               key={index}
-              className={activeButton === block.language ? styles.active : ''}
+              className={clx(styles.tabItem, activeButton === block.language ? styles.active : '')}
             >
               {block.code}
             </pre>
