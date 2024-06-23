@@ -10,7 +10,7 @@ export default async (req, res) => {
 
     const stream = await openai.chat.completions.create({
       stream: true,
-      model: 'gpt-3.5-turbo-0125',
+      model: 'gpt-4o',
       messages: [{ role: 'user', content: prompt }]
     })
 
