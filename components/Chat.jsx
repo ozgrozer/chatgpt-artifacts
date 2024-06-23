@@ -1,19 +1,18 @@
-import { useState, useCallback } from 'react'
+import { useState, useCallback, useRef, useEffect } from 'react'
 import { Prism as SyntaxHighlighter } from 'react-syntax-highlighter'
 import { oneDark } from 'react-syntax-highlighter/dist/cjs/styles/prism'
 
 import clx from './../functions/clx'
 import CodeRenderer from './CodeRenderer'
 import styles from './../styles/chat.module.scss'
-import demoResponse from './../functions/demoResponse'
 import extractCodeFromBuffer from './../functions/extractCodeFromBuffer'
 
 export default () => {
-  const [message, setMessage] = useState(demoResponse)
-  const [codeBlocks, setCodeBlocks] = useState(extractCodeFromBuffer(demoResponse))
-  const [prompt, setPrompt] = useState('make a todo app with html and js only')
-
-  const [activeButton, setActiveButton] = useState(codeBlocks[0].language)
+  const responseRef = useRef(null)
+  const [prompt, setPrompt] = useState('')
+  const [message, setMessage] = useState('')
+  const [codeBlocks, setCodeBlocks] = useState([])
+  const [activeButton, setActiveButton] = useState()
 
   const fetchStream = useCallback(async () => {
     try {
@@ -40,7 +39,6 @@ export default () => {
         setMessage(prevChunk => prevChunk + chunk)
       }
     } catch (error) {
-      console.error('Error fetching stream:', error)
       setMessage('Error: ' + error.message)
     }
   }, [prompt])
@@ -50,10 +48,19 @@ export default () => {
     fetchStream()
   }
 
+  useEffect(() => {
+    if (responseRef.current) {
+      responseRef.current.scrollTop = responseRef.current.scrollHeight
+    }
+  }, [message])
+
   return (
     <div className={clx(styles.wrapper, codeBlocks.length ? styles.codeBlocksActive : '')}>
       <div className={styles.responseWrapper}>
-        <div className={styles.response}>
+        <div
+          ref={responseRef}
+          className={styles.response}
+        >
           {message && <pre>{message}</pre>}
         </div>
 
