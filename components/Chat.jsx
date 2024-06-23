@@ -14,6 +14,18 @@ export default () => {
   const [codeBlocks, setCodeBlocks] = useState([])
   const [activeButton, setActiveButton] = useState()
 
+  const handleSubmit = (e) => {
+    e.preventDefault()
+    fetchStream()
+    setPrompt('')
+  }
+
+  useEffect(() => {
+    if (responseRef.current) {
+      responseRef.current.scrollTop = responseRef.current.scrollHeight
+    }
+  }, [message])
+
   const fetchStream = useCallback(async () => {
     try {
       const response = await fetch('/api/chat', {
@@ -42,18 +54,6 @@ export default () => {
       setMessage('Error: ' + error.message)
     }
   }, [prompt])
-
-  const handleSubmit = (e) => {
-    e.preventDefault()
-    fetchStream()
-    setPrompt('')
-  }
-
-  useEffect(() => {
-    if (responseRef.current) {
-      responseRef.current.scrollTop = responseRef.current.scrollHeight
-    }
-  }, [message])
 
   return (
     <div className={clx(styles.wrapper, codeBlocks.length ? styles.codeBlocksActive : '')}>
