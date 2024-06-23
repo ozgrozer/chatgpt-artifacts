@@ -46,6 +46,7 @@ export default () => {
   const handleSubmit = (e) => {
     e.preventDefault()
     fetchStream()
+    setPrompt('')
   }
 
   useEffect(() => {
