@@ -1,17 +1,13 @@
 .wrapper {
-  bottom: 0;
-  left: 50%;
-  width: 700px;
   height: 100%;
-  position: fixed;
-  margin-left: -350px;
-}
+  &.codeBlocksActive {
+    .responseWrapper {
+      margin-left: -700px;
+    }
 
-.response {
-  height: 100%;
-  padding: 30px;
-  overflow-y: auto;
-  padding-bottom: 250px;
+    .codeBlocksWrapper {
+    }
+  }
 
   pre {
     color: #fff;
@@ -20,6 +16,32 @@
     white-space: pre-wrap;
     background-color: #343432;
   }
+}
+
+.responseWrapper {
+  bottom: 0;
+  left: 50%;
+  width: 700px;
+  height: 100%;
+  position: fixed;
+  margin-left: -350px;
+
+  .response {
+    height: 100%;
+    padding: 30px;
+    overflow-y: auto;
+    padding-bottom: 250px;
+  }
+}
+
+.codeBlocksWrapper {
+  bottom: 0;
+  left: 50%;
+  width: 700px;
+  height: 100%;
+  padding: 30px;
+  overflow: auto;
+  position: fixed;
 }
 
 .form {
