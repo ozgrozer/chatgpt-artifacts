@@ -215,11 +215,7 @@ export default () => {
 
         <div className={styles.tabContent}>
           <div className={clx(styles.tabItem, activeButton === 'preview' ? styles.active : '')}>
-            <CodeRenderer
-              html='<div>asd</div>'
-              js='console.log("hey");'
-              css='body { background-color: red; }'
-            />
+            <CodeRenderer codeBlocks={codeBlocks} />
           </div>
 
           {codeBlocks.map((block, index) => (
