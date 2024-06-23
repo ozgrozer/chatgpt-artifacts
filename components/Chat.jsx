@@ -2,22 +2,11 @@ import { useState, useCallback } from 'react'
 import { Prism as SyntaxHighlighter } from 'react-syntax-highlighter'
 import { oneDark } from 'react-syntax-highlighter/dist/cjs/styles/prism'
 
+import clx from './clx'
 import demoResponse from './demoResponse'
 import CodeRenderer from './CodeRenderer'
 import styles from './../styles/chat.module.scss'
-
-const clx = (...classes) => {
-  return classes.join(' ')
-}
-
-const extractCodeFromBuffer = (buffer) => {
-  const regex = /```(?:(html|css|js|javascript)?\s*)\n([\s\S]*?)```/g
-  const matches = [...buffer.matchAll(regex)]
-  return matches.map(match => ({
-    language: match[1] || 'javascript',
-    code: match[2].trim()
-  }))
-}
+import extractCodeFromBuffer from './extractCodeFromBuffer'
 
 export default () => {
   const [message, setMessage] = useState(demoResponse)
