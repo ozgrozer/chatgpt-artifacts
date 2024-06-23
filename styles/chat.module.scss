@@ -1,0 +1,44 @@
+.wrapper {
+  bottom: 0;
+  left: 50%;
+  width: 700px;
+  height: 100%;
+  position: fixed;
+  margin-left: -350px;
+}
+
+.response {
+  height: 100%;
+  padding: 30px;
+  overflow-y: auto;
+  padding-bottom: 250px;
+
+  pre {
+    color: #fff;
+    padding: 20px;
+    border-radius: 10px;
+    white-space: pre-wrap;
+    background-color: #343432;
+  }
+}
+
+.form {
+  left: 0;
+  bottom: 0;
+  width: 100%;
+  padding: 40px 20px;
+  position: absolute;
+
+  .input {
+    color: #fff;
+    width: 100%;
+    border: none;
+    height: 50px;
+    padding: 0 15px;
+    border-radius: 10px;
+    background-color: #393937;
+    &:focus {
+      background-color: #444;
+    }
+  }
+}

@@ -52,24 +52,13 @@ export default () => {
   }
 
   return (
-    <div>
-      <form onSubmit={handleSubmit}>
-        <input
-          type='text'
-          value={prompt}
-          placeholder='Enter your prompt'
-          onChange={(e) => setPrompt(e.target.value)}
-        />
-        <button type='submit'>Send</button>
-      </form>
-
-      <div>
-        <h1>Chat Response:</h1>
+    <div className={styles.wrapper}>
+      <div className={styles.response}>
         <pre>{message}</pre>
       </div>
 
       <div>
-        <h1>Code Blocks:</h1>
+        <div>Code Blocks:</div>
         {codeBlocks.map((block, index) => (
           <div key={index}>
             <h2>{block.language}</h2>
@@ -77,6 +66,19 @@ export default () => {
           </div>
         ))}
       </div>
+
+      <form
+        onSubmit={handleSubmit}
+        className={styles.form}
+      >
+        <input
+          type='text'
+          value={prompt}
+          className={styles.input}
+          placeholder='Enter your prompt'
+          onChange={(e) => setPrompt(e.target.value)}
+        />
+      </form>
     </div>
   )
 }
