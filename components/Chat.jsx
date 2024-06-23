@@ -12,7 +12,7 @@ export default () => {
   const [prompt, setPrompt] = useState('')
   const [message, setMessage] = useState('')
   const [codeBlocks, setCodeBlocks] = useState([])
-  const [activeButton, setActiveButton] = useState()
+  const [activeButton, setActiveButton] = useState('html')
 
   const handleSubmit = (e) => {
     e.preventDefault()
