@@ -41,7 +41,6 @@ export default () => {
       const reader = response.body.getReader()
       const decoder = new TextDecoder()
       let _message = ''
-      setMessage('')
       while (true) {
         const { done, value } = await reader.read()
         if (done) break
