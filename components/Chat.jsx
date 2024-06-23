@@ -78,7 +78,7 @@ export default () => {
         </form>
       </div>
 
-      <div className={styles.codeBlocksWrapper}>
+      <div className={clx(styles.codeBlocksWrapper, codeBlocks.length ? styles.show : '')}>
         <div className={styles.tabHeader}>
           <button
             onClick={() => setActiveButton('preview')}

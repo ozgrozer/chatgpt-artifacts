@@ -42,8 +42,12 @@
   width: 700px;
   height: 100%;
   padding: 30px;
+  display: none;
   overflow: auto;
   position: fixed;
+  &.show {
+    display: block;
+  }
 
   .tabHeader {
     gap: 5px;
