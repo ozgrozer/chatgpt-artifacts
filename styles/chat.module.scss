@@ -11,6 +11,7 @@
 
   pre {
     color: #fff;
+    font-size: 14px;
     padding: 20px;
     border-radius: 10px;
     white-space: pre-wrap;
@@ -42,6 +43,47 @@
   padding: 30px;
   overflow: auto;
   position: fixed;
+
+  .tabHeader {
+    gap: 5px;
+    height: 50px;
+    display: flex;
+    padding: 0 20px;
+    align-items: center;
+    background-color: #393937;
+    border: 1px solid #3E3E38;
+    border-top-left-radius: 10px;
+    border-top-right-radius: 10px;
+
+    button {
+      color: #fff;
+      height: 30px;
+      border: none;
+      cursor: pointer;
+      padding: 0 10px;
+      font-size: 13px;
+      font-weight: bold;
+      border-radius: 10px;
+      background-color: #2F2F2C;
+      text-transform: uppercase;
+      &.active {
+        background-color: #21201C;
+      }
+    }
+  }
+
+  .tabContent {
+    pre {
+      display: none;
+      border: 1px solid #3E3E38;
+      background-color: #282C34;
+      border-top-left-radius: 0;
+      border-top-right-radius: 0;
+      &.active {
+        display: block;
+      }
+    }
+  }
 }
 
 .form {

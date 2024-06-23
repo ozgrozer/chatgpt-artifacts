@@ -130,9 +130,11 @@ taskList.addEventListener('click', (e) => {
 `
 
 export default () => {
-  const [codeBlocks, setCodeBlocks] = useState(extractCodeFromBuffer(_message))
   const [message, setMessage] = useState(_message)
+  const [codeBlocks, setCodeBlocks] = useState(extractCodeFromBuffer(_message))
   const [prompt, setPrompt] = useState('make a todo app with html and js only')
+
+  const [activeButton, setActiveButton] = useState(codeBlocks[0].language)
 
   const fetchStream = useCallback(async () => {
     try {
@@ -191,12 +193,35 @@ export default () => {
       </div>
 
       <div className={styles.codeBlocksWrapper}>
-        {codeBlocks.map((block, index) => (
-          <div key={index}>
-            <h2>{block.language}</h2>
-            <pre>{block.code}</pre>
-          </div>
-        ))}
+        <div className={styles.tabHeader}>
+          <button
+            onClick={() => setActiveButton('preview')}
+            className={activeButton === 'preview' ? styles.active : ''}
+          >
+            Preview
+          </button>
+
+          {codeBlocks.map((block, index) => (
+            <button
+              key={index}
+              onClick={() => setActiveButton(block.language)}
+              className={activeButton === block.language ? styles.active : ''}
+            >
+              {block.language}
+            </button>
+          ))}
+        </div>
+
+        <div className={styles.tabContent}>
+          {codeBlocks.map((block, index) => (
+            <pre
+              key={index}
+              className={activeButton === block.language ? styles.active : ''}
+            >
+              {block.code}
+            </pre>
+          ))}
+        </div>
       </div>
     </div>
   )
