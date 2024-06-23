@@ -114,7 +114,7 @@ addTaskBtn.addEventListener('click', () => {
     const task = taskInput.value.trim();
     if (task !== '') {
         const li = document.createElement('li');
-        li.innerHTML = \`task<button class="deleteBtn">Delete</button>\`;
+        li.innerHTML = \`\${task}<button class="deleteBtn">Delete</button>\`;
         taskList.appendChild(li);
         taskInput.value = '';
     }

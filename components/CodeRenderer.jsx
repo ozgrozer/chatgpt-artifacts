@@ -3,7 +3,7 @@ import { useRef, useEffect } from 'react'
 export default ({ codeBlocks }) => {
   const html = codeBlocks.find(block => block.language === 'html')?.code || ''
   const css = codeBlocks.find(block => block.language === 'css')?.code || ''
-  const js = codeBlocks.find(block => block.language === 'js')?.code || ''
+  const js = codeBlocks.find(block => block.language === 'js' || block.language === 'javascript')?.code || ''
 
   const iframeRef = useRef(null)
 
