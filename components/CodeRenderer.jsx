@@ -51,7 +51,7 @@ export default ({ codeBlocks }) => {
       document.write(content)
       document.close()
     }
-  }, [html, css, js])
+  }, [html, css, js, jsx])
 
   return (
     <iframe
