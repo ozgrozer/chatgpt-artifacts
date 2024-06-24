@@ -33,6 +33,6 @@ export default code => {
   }
 
   const result = newImports + transformedCode
-  const removeExportPart = result.replace(/export\s+default\s+App;/, '')
+  const removeExportPart = result.replace(/export default \w+;\s*$/, '')
   return removeExportPart
 }
