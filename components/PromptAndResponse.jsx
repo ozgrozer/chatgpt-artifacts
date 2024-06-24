@@ -50,7 +50,7 @@ export default ({ setCodeBlocks }) => {
   }, [prompt])
 
   return (
-    <div className={styles.responseWrapper}>
+    <div className={styles.promptAndResponseWrapper}>
       <div
         ref={responseRef}
         className={styles.response}

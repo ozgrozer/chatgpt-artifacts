@@ -1,11 +1,8 @@
 .wrapper {
   height: 100%;
   &.codeBlocksActive {
-    .responseWrapper {
+    .promptAndResponseWrapper {
       margin-left: -700px;
-    }
-
-    .codeBlocksWrapper {
     }
   }
 
@@ -20,7 +17,7 @@
   }
 }
 
-.responseWrapper {
+.promptAndResponseWrapper {
   bottom: 0;
   left: 50%;
   width: 700px;
@@ -33,6 +30,27 @@
     padding: 30px;
     overflow-y: auto;
     padding-bottom: 150px;
+  }
+
+  .form {
+    left: 0;
+    bottom: 0;
+    width: 100%;
+    padding: 40px 20px;
+    position: absolute;
+
+    .input {
+      color: #fff;
+      width: 100%;
+      border: none;
+      height: 50px;
+      padding: 0 15px;
+      border-radius: 10px;
+      background-color: #393937;
+      &:focus {
+        background-color: #444;
+      }
+    }
   }
 }
 
@@ -89,27 +107,6 @@
       &.preview {
         background-color: #fff;
       }
-    }
-  }
-}
-
-.form {
-  left: 0;
-  bottom: 0;
-  width: 100%;
-  padding: 40px 20px;
-  position: absolute;
-
-  .input {
-    color: #fff;
-    width: 100%;
-    border: none;
-    height: 50px;
-    padding: 0 15px;
-    border-radius: 10px;
-    background-color: #393937;
-    &:focus {
-      background-color: #444;
     }
   }
 }
