@@ -12,7 +12,7 @@ export default () => {
   const [prompt, setPrompt] = useState('')
   const [message, setMessage] = useState('')
   const [codeBlocks, setCodeBlocks] = useState([])
-  const [activeButton, setActiveButton] = useState('html')
+  const [activeButton, setActiveButton] = useState('')
 
   const handleSubmit = (e) => {
     e.preventDefault()
@@ -20,6 +20,12 @@ export default () => {
     setMessage(`${prompt}\n`)
     setPrompt('')
   }
+
+  useEffect(() => {
+    if (activeButton) return
+    if (!codeBlocks.length) return
+    setActiveButton(codeBlocks[0].language)
+  }, [codeBlocks])
 
   useEffect(() => {
     if (responseRef.current) {
