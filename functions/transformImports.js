@@ -32,5 +32,7 @@ export default code => {
     newImports += `const { ${Array.from(namedImports).join(', ')} } = React;\n`
   }
 
-  return newImports + transformedCode
+  const result = newImports + transformedCode
+  const removeExportPart = result.replace(/export\s+default\s+App;/, '')
+  return removeExportPart
 }
