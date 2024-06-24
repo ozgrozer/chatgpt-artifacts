@@ -1,5 +1,7 @@
 import { useRef, useEffect } from 'react'
 
+import transformImports from './../functions/transformImports'
+
 export default ({ codeBlocks }) => {
   const html = codeBlocks.find(block => block.language === 'html')?.code || ''
   const css = codeBlocks.find(block => block.language === 'css')?.code || ''
@@ -26,7 +28,7 @@ export default ({ codeBlocks }) => {
             <div id="app"></div>
             ${html}
             <script type="text/babel">
-              ${jsx}
+              ${transformImports(jsx)}
               ReactDOM.render(<App />, document.getElementById('app'))
             </script>
           </body>
