@@ -16,6 +16,9 @@ export default ({ codeBlocks }) => {
       const document = iframe.contentDocument
       let content = ''
       if (jsx) {
+        const componentNameMatch = jsx.match(/export default (\w+);/)
+        const componentName = componentNameMatch ? componentNameMatch[1] : null
+
         content = `
         <html>
           <head>
@@ -29,7 +32,7 @@ export default ({ codeBlocks }) => {
             ${html}
             <script type="text/babel">
               ${transformImports(jsx)}
-              ReactDOM.render(<App />, document.getElementById('app'))
+              ReactDOM.render(<${componentName} />, document.getElementById('app'))
             </script>
           </body>
         </html>
