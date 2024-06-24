@@ -3,6 +3,9 @@ import { useRef, useEffect } from 'react'
 import transformImports from './../functions/transformImports'
 
 export default ({ codeBlocks }) => {
+  const allItemsCompleted = codeBlocks.every(item => item.complete)
+  if (!allItemsCompleted) return null
+
   const html = codeBlocks.find(block => block.language === 'html')?.code || ''
   const css = codeBlocks.find(block => block.language === 'css')?.code || ''
   const jsx = codeBlocks.find(block => block.language === 'jsx')?.code || ''
