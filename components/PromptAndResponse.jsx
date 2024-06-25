@@ -40,14 +40,22 @@ export default ({ setCodeBlocks }) => {
         const { done, value } = await reader.read()
         if (done) break
         const chunk = decoder.decode(value)
-        _message = _message + chunk
-        setCodeBlocks(extractCodeFromBuffer(_message))
-        setMessage(prevChunk => prevChunk + chunk)
+        _message += chunk
+        const extractedCode = extractCodeFromBuffer(_message)
+        setCodeBlocks(extractedCode)
+
+        let messageWithoutCode = _message
+        extractedCode.forEach(codeBlock => {
+          const codeRegex = new RegExp(`\`\`\`${codeBlock.language}?\\s*\\n${codeBlock.code.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')}\\s*\`\`\``, 'g')
+          messageWithoutCode = messageWithoutCode.replace(codeRegex, '[CODE]')
+        })
+
+        setMessage(messageWithoutCode)
       }
     } catch (error) {
       setMessage('Error: ' + error.message)
     }
-  }, [prompt])
+  }, [prompt, setCodeBlocks])
 
   return (
     <div className={styles.promptAndResponseWrapper}>
