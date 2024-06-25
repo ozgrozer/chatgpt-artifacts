@@ -1,15 +1,15 @@
-export default code => {
-  // Regular expression to match import statements from 'react'
-  const importRegex =
+export default (code) => {
+  const importReactRegex =
     /import\s+(?:(\w+)\s*,?\s*)?(?:{([^}]+)})?\s+from\s+['"]react['"];?/g
+  const importCssRegex = /import\s+['"]([^'"]+\.css)['"];?/g
 
   let transformedCode = code
   let match
   let defaultImport = ''
   const namedImports = new Set()
 
-  // Collect all imports
-  while ((match = importRegex.exec(code)) !== null) {
+  // Remove and process React imports
+  while ((match = importReactRegex.exec(code)) !== null) {
     if (match[1]) {
       defaultImport = match[1].trim()
     }
@@ -18,10 +18,11 @@ export default code => {
     }
   }
 
-  // Remove original import statements
-  transformedCode = transformedCode.replace(importRegex, '')
+  transformedCode = transformedCode.replace(importReactRegex, '')
 
-  // Add transformed imports at the beginning of the code
+  // Remove CSS imports
+  transformedCode = transformedCode.replace(importCssRegex, '')
+
   let newImports = ''
   if (defaultImport) {
     newImports += `const ${defaultImport} = window.React;\n`
@@ -33,6 +34,9 @@ export default code => {
   }
 
   const result = newImports + transformedCode
+
+  // Remove export component
   const removeExportPart = result.replace(/export default \w+;\s*$/, '')
+
   return removeExportPart
 }
