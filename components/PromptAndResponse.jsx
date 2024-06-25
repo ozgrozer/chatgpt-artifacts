@@ -73,9 +73,12 @@ export default ({ setCodeBlocks }) => {
         ref={responseRef}
         className={styles.response}
       >
-        {messages.map((msg, idx) => (
-          <pre key={idx}>{msg}</pre>
-        ))}
+        {
+          messages.map((msg, key) => {
+            if (!msg) return null
+            return <pre key={key}>{msg}</pre>
+          })
+        }
       </div>
 
       <form
