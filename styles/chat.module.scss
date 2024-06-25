@@ -26,10 +26,13 @@
   margin-left: -350px;
 
   .response {
+    gap: 30px;
     height: 100%;
     padding: 30px;
+    display: flex;
     overflow-y: auto;
     padding-bottom: 150px;
+    flex-direction: column;
   }
 
   .form {

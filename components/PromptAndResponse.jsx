@@ -6,22 +6,22 @@ import extractCodeFromBuffer from './../functions/extractCodeFromBuffer'
 export default ({ setCodeBlocks }) => {
   const responseRef = useRef(null)
   const [prompt, setPrompt] = useState('')
-  const [message, setMessage] = useState('')
+  const [messages, setMessages] = useState([])
 
   useEffect(() => {
     if (responseRef.current) {
       responseRef.current.scrollTop = responseRef.current.scrollHeight
     }
-  }, [message])
+  }, [messages])
 
   const handleSubmit = (e) => {
     e.preventDefault()
-    fetchStream()
-    setMessage(`${prompt}\n`)
+    setMessages(prevMessages => [...prevMessages, prompt, ''])
+    fetchStream(prompt, messages.length + 1)
     setPrompt('')
   }
 
-  const fetchStream = useCallback(async () => {
+  const fetchStream = useCallback(async (prompt, index) => {
     try {
       const response = await fetch('/api/chat', {
         method: 'POST',
@@ -52,12 +52,20 @@ export default ({ setCodeBlocks }) => {
           })
         })
 
-        setMessage(messageWithoutCode)
+        setMessages(prevMessages => {
+          const newMessages = [...prevMessages]
+          newMessages[index] = messageWithoutCode
+          return newMessages
+        })
       }
     } catch (error) {
-      setMessage('Error: ' + error.message)
+      setMessages(prevMessages => {
+        const newMessages = [...prevMessages]
+        newMessages[index] = `Error: ${error.message}`
+        return newMessages
+      })
     }
-  }, [prompt, setCodeBlocks])
+  }, [setCodeBlocks])
 
   return (
     <div className={styles.promptAndResponseWrapper}>
@@ -65,7 +73,9 @@ export default ({ setCodeBlocks }) => {
         ref={responseRef}
         className={styles.response}
       >
-        {message && <pre>{message}</pre>}
+        {messages.map((msg, idx) => (
+          <pre key={idx}>{msg}</pre>
+        ))}
       </div>
 
       <form
