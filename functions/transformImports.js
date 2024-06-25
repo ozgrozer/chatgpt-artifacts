@@ -3,6 +3,7 @@ export default (code) => {
     /import\s+(?:(\w+)\s*,?\s*)?(?:{([^}]+)})?\s+from\s+['"]react['"];?/g
   const importCssRegex = /import\s+['"]([^'"]+\.css)['"];?/g
   const importReactDOMRegex = /import\s+\w+\s+from\s+['"]react-dom['"];?/g
+  const reactDomRenderRegex = /ReactDOM\.render\([^)]*\);?/g
 
   let transformedCode = code
   let match
@@ -26,6 +27,9 @@ export default (code) => {
 
   // Remove ReactDOM imports
   transformedCode = transformedCode.replace(importReactDOMRegex, '')
+
+  // Remove ReactDOM.render statements
+  transformedCode = transformedCode.replace(reactDomRenderRegex, '')
 
   let newImports = ''
   if (defaultImport) {
