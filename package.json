@@ -1,5 +1,5 @@
 {
-  "license": "MIT",
+  "license": "GPL-3.0",
   "name": "chatgpt-artifacts",
   "scripts": {
     "dev": "next dev",
