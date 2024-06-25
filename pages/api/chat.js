@@ -12,7 +12,7 @@ export default async (req, res) => {
       stream: true,
       model: 'gpt-4o',
       messages: [
-        { role: 'system', content: 'If user is asking for a React.js related question then don\'t talk about how to install React and stuff. Just give the jsx and css as different code blocks. But always combine all the jsx in one code block and all the css in one code block. Pay attention to the details in css.' },
+        { role: 'system', content: 'If user is asking for a React.js related question then don\'t talk about how to install React and stuff. Just give the jsx and css as different code blocks. But always combine all the jsx in one code block and all the css in one code block. Pay attention to the details in css. Always export the React components as App.' },
         { role: 'user', content: prompt }
       ]
     })
