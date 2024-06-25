@@ -46,8 +46,10 @@ export default ({ setCodeBlocks }) => {
 
         let messageWithoutCode = _message
         extractedCode.forEach(codeBlock => {
-          const codeRegex = new RegExp(`\`\`\`${codeBlock.language}?\\s*\\n${codeBlock.code.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')}\\s*\`\`\``, 'g')
-          messageWithoutCode = messageWithoutCode.replace(codeRegex, '[CODE]')
+          const codeRegex = new RegExp(`\`\`\`${codeBlock.language}?\\s*\\n([\\s\\S]*?)(\`\`\`|$)`, 'g')
+          messageWithoutCode = messageWithoutCode.replace(codeRegex, (match, code, closing) => {
+            return closing === '```' ? '[CODE BLOCK]' : '[CODE IS STREAMING]'
+          })
         })
 
         setMessage(messageWithoutCode)
