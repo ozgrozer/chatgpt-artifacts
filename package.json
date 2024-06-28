@@ -1,6 +1,12 @@
 {
   "license": "GPL-3.0",
   "name": "chatgpt-artifacts",
+  "description": "Artifacts for ChatGPT",
+  "author": {
+    "name": "Ozgur Ozer",
+    "email": "ozgr@live.com",
+    "url": "https://github.com/ozgrozer"
+  },
   "scripts": {
     "dev": "next dev",
     "build": "next build",
