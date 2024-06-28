@@ -1,22 +1,30 @@
 import OpenAI from 'openai'
 
+const conversations = {}
+
 export default async (req, res) => {
   try {
-    const { prompt } = await req.json()
+    const { prompt, conversationId } = await req.json()
 
     const openai = new OpenAI({
       apiKey: process.env.OPENAI_API_KEY
     })
 
+    if (!conversations[conversationId]) {
+      conversations[conversationId] = [
+        { role: 'system', content: 'If user is asking for a React.js related question then don\'t talk about how to install React and stuff. Just give the jsx and css (if necessary) as different code blocks. But always combine all the jsx in one code block and all the css in one code block. Don\'t use external React libraries, do it everything with React itself. Pay attention to the details in css. Always export the React components as App. Don\'t mix up React.js and regular JS questions.' }
+      ]
+    }
+
+    conversations[conversationId].push({ role: 'user', content: prompt })
+
     const stream = await openai.chat.completions.create({
       stream: true,
       model: 'gpt-4o',
-      messages: [
-        { role: 'system', content: 'If user is asking for a React.js related question then don\'t talk about how to install React and stuff. Just give the jsx and css (if necessary) as different code blocks. But always combine all the jsx in one code block and all the css in one code block. Don\'t use external React libraries, do it everything with React itself. Pay attention to the details in css. Always export the React components as App. Don\'t mix up React.js and regular JS questions.' },
-        { role: 'user', content: prompt }
-      ]
+      messages: conversations[conversationId]
     })
 
+    let assistantMessage = ''
     return new Response(
       new ReadableStream({
         async start (controller) {
@@ -24,6 +32,7 @@ export default async (req, res) => {
             for await (const chunk of stream) {
               const content = chunk.choices[0]?.delta?.content || ''
               if (content) {
+                assistantMessage += content
                 controller.enqueue(new TextEncoder().encode(content))
               }
             }
@@ -31,6 +40,7 @@ export default async (req, res) => {
             console.log('Error in stream processing:', error)
             controller.error(error)
           } finally {
+            conversations[conversationId].push({ role: 'assistant', content: assistantMessage })
             controller.close()
           }
         }

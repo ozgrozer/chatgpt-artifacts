@@ -1,7 +1,10 @@
 import { useRef, useState, useEffect, useCallback } from 'react'
 
+import uuid from './../functions/uuid'
 import styles from './../styles/chat.module.scss'
 import extractCodeFromBuffer from './../functions/extractCodeFromBuffer'
+
+const conversationId = uuid()
 
 export default ({ setCodeBlocks }) => {
   const responseRef = useRef(null)
@@ -14,7 +17,7 @@ export default ({ setCodeBlocks }) => {
     }
   }, [messages])
 
-  const handleSubmit = (e) => {
+  const handleSubmit = e => {
     e.preventDefault()
     setMessages(prevMessages => [...prevMessages, prompt, ''])
     fetchStream(prompt, messages.length + 1)
@@ -25,10 +28,8 @@ export default ({ setCodeBlocks }) => {
     try {
       const response = await fetch('/api/chat', {
         method: 'POST',
-        headers: {
-          'Content-Type': 'application/json'
-        },
-        body: JSON.stringify({ prompt })
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ prompt, conversationId })
       })
       if (!response.ok) {
         throw new Error(`HTTP error! status: ${response.status}`)
