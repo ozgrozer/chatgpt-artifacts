@@ -1,4 +1,8 @@
-.env
+# directories
 .next
-.DS_Store
 node_modules
+
+# files
+.env
+.DS_Store
+*.sublime-*
