@@ -1,7 +1,7 @@
 {
   "license": "GPL-3.0",
   "name": "chatgpt-artifacts",
-  "description": "Artifacts for ChatGPT",
+  "description": "Bring Claude's Artifacts feature to ChatGPT",
   "author": {
     "name": "Ozgur Ozer",
     "email": "ozgr@live.com",
