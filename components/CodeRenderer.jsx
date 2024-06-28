@@ -1,4 +1,4 @@
-import { useRef, useEffect } from 'react'
+import { useRef, useEffect, useMemo } from 'react'
 
 import transformImports from './../functions/transformImports'
 
@@ -13,18 +13,16 @@ export default ({ codeBlocks }) => {
 
   const iframeRef = useRef(null)
 
-  useEffect(() => {
-    const iframe = iframeRef.current
-    if (iframe) {
-      const document = iframe.contentDocument
-      let content = ''
-      if (jsx) {
-        const componentNameMatch = jsx.match(/export default (\w+);/)
-        const componentName = componentNameMatch ? componentNameMatch[1] : null
-
-        content = `
+  const content = useMemo(() => {
+    if (jsx) {
+      const componentNameMatch = jsx.match(/export default (\w+);/)
+      const componentName = componentNameMatch ? componentNameMatch[1] : null
+      return `
+        <!DOCTYPE html>
         <html>
           <head>
+            <meta charset="utf-8" />
+            <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'unsafe-inline' 'unsafe-eval' https://cdnjs.cloudflare.com; style-src 'unsafe-inline';">
             <style>${css}</style>
             <script src="https://cdnjs.cloudflare.com/ajax/libs/babel-standalone/7.24.6/babel.min.js"></script>
             <script src="https://cdnjs.cloudflare.com/ajax/libs/react/18.3.1/umd/react.production.min.js"></script>
@@ -40,28 +38,35 @@ export default ({ codeBlocks }) => {
           </body>
         </html>
       `
-      } else {
-        content = `
-          <html>
-            <head>
-              <style>${css}</style>
-            </head>
-            <body>
-              ${html}
-              <script>${js}</script>
-            </body>
-          </html>
-        `
-      }
-      document.open()
-      document.write(content)
-      document.close()
+    } else {
+      return `
+        <!DOCTYPE html>
+        <html>
+          <head>
+            <meta charset="utf-8" />
+            <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'unsafe-inline'; style-src 'unsafe-inline';">
+            <style>${css}</style>
+          </head>
+          <body>
+            ${html}
+            <script>${js}</script>
+          </body>
+        </html>
+      `
     }
   }, [html, css, js, jsx])
+
+  useEffect(() => {
+    const iframe = iframeRef.current
+    if (iframe) {
+      iframe.srcdoc = content
+    }
+  }, [content])
 
   return (
     <iframe
       ref={iframeRef}
+      sandbox='allow-scripts'
       style={{ width: '100%', height: '600px', border: 'none' }}
     />
   )
