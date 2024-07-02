@@ -6,8 +6,9 @@ import styles from './../styles/Chat.module.scss'
 import PromptAndResponse from './PromptAndResponse'
 
 export default () => {
-  const [sandboxMode, setSandboxMode] = useState(false)
   const [codeBlocks, setCodeBlocks] = useState([])
+  const [sandboxMode, setSandboxMode] = useState(false)
+  const [streamFinished, setStreamFinished] = useState(false)
   const [codeBlocksActive, setCodeBlocksActive] = useState(false)
 
   return (
@@ -17,12 +18,14 @@ export default () => {
         setCodeBlocks={setCodeBlocks}
         setSandboxMode={setSandboxMode}
         codeBlocksActive={codeBlocksActive}
+        setStreamFinished={setStreamFinished}
         setCodeBlocksActive={setCodeBlocksActive}
       />
 
       <CodeBlocks
         codeBlocks={codeBlocks}
         sandboxMode={sandboxMode}
+        streamFinished={streamFinished}
       />
     </div>
   )

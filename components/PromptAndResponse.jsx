@@ -8,7 +8,7 @@ import extractCodeFromBuffer from './../functions/extractCodeFromBuffer'
 
 const conversationId = uuid()
 
-export default ({ sandboxMode, setCodeBlocks, setSandboxMode, codeBlocksActive, setCodeBlocksActive }) => {
+export default ({ sandboxMode, setCodeBlocks, setSandboxMode, codeBlocksActive, setStreamFinished, setCodeBlocksActive }) => {
   const responseRef = useRef(null)
   const [prompt, setPrompt] = useState('')
   const [messages, setMessages] = useState([])
@@ -41,6 +41,7 @@ export default ({ sandboxMode, setCodeBlocks, setSandboxMode, codeBlocksActive, 
       let _message = ''
       while (true) {
         const { done, value } = await reader.read()
+        if (done) setStreamFinished(true)
         if (done) break
 
         const chunk = decoder.decode(value)

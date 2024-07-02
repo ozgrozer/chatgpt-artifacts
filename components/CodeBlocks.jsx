@@ -6,7 +6,7 @@ import clx from './../functions/clx'
 import CodeRenderer from './CodeRenderer'
 import styles from './../styles/CodeBlocks.module.scss'
 
-export default ({ codeBlocks, sandboxMode }) => {
+export default ({ codeBlocks, sandboxMode, streamFinished }) => {
   const [activeButton, setActiveButton] = useState('')
 
   useEffect(() => {
@@ -34,7 +34,6 @@ export default ({ codeBlocks, sandboxMode }) => {
         if (done) break
 
         const chunk = decoder.decode(value)
-        console.log(chunk)
         _message += chunk
         setOutput(_message)
       }
@@ -44,12 +43,14 @@ export default ({ codeBlocks, sandboxMode }) => {
 
   const hasCalledBackend = useRef(false)
   useEffect(() => {
-    const complete = codeBlocks.length > 0 && codeBlocks.every(item => item.complete)
+    const complete = streamFinished &&
+      codeBlocks.length > 0 &&
+      codeBlocks.every(item => item.complete)
     if (complete && !hasCalledBackend.current) {
       fetchStream({ codeBlocks })
       hasCalledBackend.current = true
     }
-  }, [codeBlocks])
+  }, [codeBlocks, streamFinished])
 
   return (
     <div className={clx(styles.codeBlocksWrapper, codeBlocks.length ? styles.show : '')}>
