@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react'
+import { useRef, useState, useEffect, useCallback } from 'react'
 import { Prism as SyntaxHighlighter } from 'react-syntax-highlighter'
 import { oneDark } from 'react-syntax-highlighter/dist/cjs/styles/prism'
 
@@ -13,6 +13,42 @@ export default ({ codeBlocks, sandboxMode }) => {
     if (activeButton && activeButton !== 'preview') return
     if (!codeBlocks.length) return
     setActiveButton(codeBlocks[0].language)
+  }, [codeBlocks])
+
+  const [output, setOutput] = useState('Output will be shown here')
+  const fetchStream = useCallback(async ({ codeBlocks }) => {
+    try {
+      const response = await fetch('/api/execute', {
+        method: 'POST',
+        body: JSON.stringify({ codeBlocks }),
+        headers: { 'Content-Type': 'application/json' }
+      })
+      if (!response.ok) {
+        throw new Error(`HTTP error! status: ${response.status}`)
+      }
+      const reader = response.body.getReader()
+      const decoder = new TextDecoder()
+      let _message = ''
+      while (true) {
+        const { done, value } = await reader.read()
+        if (done) break
+
+        const chunk = decoder.decode(value)
+        console.log(chunk)
+        _message += chunk
+        setOutput(_message)
+      }
+    } catch (error) {
+    }
+  }, [setOutput])
+
+  const hasCalledBackend = useRef(false)
+  useEffect(() => {
+    const complete = codeBlocks.length > 0 && codeBlocks.every(item => item.complete)
+    if (complete && !hasCalledBackend.current) {
+      fetchStream({ codeBlocks })
+      hasCalledBackend.current = true
+    }
   }, [codeBlocks])
 
   return (
@@ -58,7 +94,7 @@ export default ({ codeBlocks, sandboxMode }) => {
                 language='bash'
                 className={clx(styles.tabItem, activeButton === 'console' ? styles.active : styles.hidden)}
               >
-                Output will be shown here
+                {output}
               </SyntaxHighlighter>
               )
             : (
