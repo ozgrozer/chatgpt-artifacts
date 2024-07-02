@@ -41,7 +41,7 @@ const spawnNode = ({ sendMessage, serverJsPath }) => {
       sendMessage(data.toString())
     })
     serverProcess.stderr.on('data', data => {
-      sendMessage(data)
+      sendMessage(data.toString())
     })
     serverProcess.on('error', reject)
     serverProcess.on('exit', (code, signal) => {
