@@ -15,7 +15,7 @@
     gap: 5px;
     height: 50px;
     display: flex;
-    padding: 0 20px;
+    padding: 0 10px;
     align-items: center;
     background-color: #393937;
     border: 1px solid #3E3E38;
@@ -41,9 +41,17 @@
 
   .tabContent {
     .tabItem {
+      padding: 20px;
+      font-size: 16px;
       margin: 0 !important;
-      border-top-left-radius: 0;
-      border-top-right-radius: 0;
+      margin: 0 !important;
+      white-space: pre-wrap;
+      border: 1px solid #3E3E38;
+      border-top: none;
+      border-top-left-radius: 0 !important;
+      border-top-right-radius: 0 !important;
+      border-bottom-left-radius: 10px !important;
+      border-bottom-right-radius: 10px !important;
       &.preview {
         background-color: #fff;
       }

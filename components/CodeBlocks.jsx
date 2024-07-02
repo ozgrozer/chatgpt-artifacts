@@ -53,15 +53,13 @@ export default ({ codeBlocks, sandboxMode }) => {
         {
           sandboxMode
             ? (
-              <div
-                className={clx(
-                  styles.tabItem,
-                  styles.console,
-                  activeButton === 'console' ? styles.active : styles.hidden
-                )}
+              <SyntaxHighlighter
+                style={oneDark}
+                language='bash'
+                className={clx(styles.tabItem, activeButton === 'console' ? styles.active : styles.hidden)}
               >
-                console
-              </div>
+                Server running at http://localhost:3000
+              </SyntaxHighlighter>
               )
             : (
               <div
