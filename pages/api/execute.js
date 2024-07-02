@@ -1,24 +1,13 @@
-import { Readable } from 'stream'
 import { promises as fs } from 'fs'
 import { exec, spawn } from 'child_process'
 
 import uuid from './../../functions/uuid'
 
-const getCode = async ({ req }) => {
-  const body = await new Promise(resolve => {
-    let data = ''
-    req.on('data', (chunk) => {
-      data += chunk
-    })
-    req.on('end', () => {
-      resolve(JSON.parse(data))
-    })
-  })
-
+const getCode = ({ codeBlocks }) => {
   let jsCode = ''
   let bashCode = ''
-  for (const key in body.codeBlocks) {
-    const item = body.codeBlocks[key]
+  for (const key in codeBlocks) {
+    const item = codeBlocks[key]
     if (item.language === 'bash') {
       bashCode = item.code
     }
@@ -60,67 +49,85 @@ const initNpm = async ({ bashCode, directoryPath }) => {
   })
 }
 
-const spawnNode = ({ sendMessage, serverJsPath }) => {
+const spawnNode = ({ serverJsPath }) => {
   return new Promise((resolve, reject) => {
     const serverProcess = spawn('node', [serverJsPath])
-    serverProcess.stdout.on('data', data => {
-      sendMessage(data.toString())
+    let stdoutData = ''
+
+    serverProcess.stdout.on('data', (data) => {
+      stdoutData += data.toString()
+      console.log(data.toString())
     })
-    serverProcess.stderr.on('data', data => {
-      sendMessage(data.toString())
+
+    serverProcess.stderr.on('data', (data) => {
+      console.log(data.toString())
     })
+
     serverProcess.on('error', reject)
+
     serverProcess.on('exit', (code, signal) => {
-      sendMessage(`Server process exited with code ${code} and signal ${signal}`)
-      resolve()
+      console.log(
+        `Server process exited with code ${code} and signal ${signal}`
+      )
+      resolve(stdoutData)
     })
   })
+}
+
+const generateStream = async ({ jsCode, bashCode, serverJsPath, directoryPath }) => {
+  const steps = [
+    async () => {
+      await createJsFile({ jsCode, serverJsPath, directoryPath })
+      return `Project directory created on ${directoryPath}`
+    },
+    async () => {
+      await initNpm({ bashCode, directoryPath })
+      return 'NPM initialized'
+    },
+    async () => {
+      const res = await spawnNode({ serverJsPath })
+      return `Node.js process output:\n${res}`
+    }
+  ]
+
+  const results = []
+  for (const step of steps) {
+    const result = await step()
+    results.push(result)
+  }
+
+  return results
 }
 
 export default async (req, res) => {
   const projectId = uuid()
 
-  const { jsCode, bashCode } = await getCode({ req })
+  const { codeBlocks } = req.body
+  const { jsCode, bashCode } = getCode({ codeBlocks })
 
-  res.writeHead(200, {
-    Connection: 'keep-alive',
-    'Cache-Control': 'no-cache',
-    'Content-Type': 'text/event-stream'
-  })
+  const directoryPath = `/tmp/chatgpt-artifacts/${projectId}`
+  const serverJsPath = `${directoryPath}/server.js`
 
-  const stream = new Readable({
-    read () {}
-  })
+  const stream = await generateStream({ jsCode, serverJsPath, directoryPath, bashCode })
 
-  stream.pipe(res)
+  res.setHeader('Connection', 'keep-alive')
+  res.setHeader('Cache-Control', 'no-cache')
+  res.setHeader('Content-Type', 'text/event-stream')
+  res.flushHeaders()
 
-  const sendMessage = message => {
-    console.log(message)
-    stream.push(`${message}\n`)
+  for (const chunkPromise of stream) {
+    try {
+      const chunk = await chunkPromise
+      res.write(chunk + '\n')
+    } catch (error) {
+      console.error('Error in stream processing:', error)
+      res.write(`Error: ${error.message}\n`)
+    }
   }
 
-  try {
-    const directoryPath = `/tmp/chatgpt-artifacts/${projectId}`
-    const serverJsPath = `${directoryPath}/server.js`
-
-    sendMessage(`Creating project directory on ${directoryPath}`)
-    await createJsFile({ jsCode, serverJsPath, directoryPath })
-
-    sendMessage('Initializing npm')
-    if (bashCode) sendMessage(`Installing npm dependencies: ${bashCode}`)
-    await initNpm({ bashCode, directoryPath })
-
-    sendMessage('Spawning node executable\n')
-    await spawnNode({ sendMessage, serverJsPath })
-  } catch (err) {
-    sendMessage(`Error: ${err.message}`)
-  } finally {
-    stream.push(null)
-  }
+  res.end()
 }
 
 export const config = {
-  api: {
-    bodyParser: false
-  }
+  runtime: 'nodejs'
 }
