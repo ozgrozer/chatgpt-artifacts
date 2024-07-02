@@ -94,13 +94,14 @@ export default async (req, res) => {
     const directoryPath = `/tmp/chatgpt-artifacts/${projectId}`
     const serverJsPath = `${directoryPath}/server.js`
 
-    sendMessage('Creating directory and file...')
+    sendMessage(`Creating project directory on ${directoryPath}`)
     await createJsFile({ jsCode, serverJsPath, directoryPath })
 
-    sendMessage('Initializing npm and installing dependencies...')
+    sendMessage('Initializing npm')
+    if (bashCode) sendMessage(`Installing npm dependencies: ${bashCode}`)
     await initNpm({ bashCode, directoryPath })
 
-    sendMessage('Starting Node.js server...')
+    sendMessage('Spawning node executable\n')
     await spawnNode({ sendMessage, serverJsPath })
   } catch (err) {
     sendMessage(`Error: ${err.message}`)
