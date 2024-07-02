@@ -22,7 +22,6 @@ export default ({ codeBlocks }) => {
         <html>
           <head>
             <meta charset="utf-8" />
-            <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'unsafe-inline' 'unsafe-eval' https://cdnjs.cloudflare.com; style-src 'unsafe-inline';">
             <style>${css}</style>
             <script src="https://cdnjs.cloudflare.com/ajax/libs/babel-standalone/7.24.6/babel.min.js"></script>
             <script src="https://cdnjs.cloudflare.com/ajax/libs/react/18.3.1/umd/react.production.min.js"></script>
@@ -44,7 +43,6 @@ export default ({ codeBlocks }) => {
         <html>
           <head>
             <meta charset="utf-8" />
-            <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'unsafe-inline'; style-src 'unsafe-inline';">
             <style>${css}</style>
           </head>
           <body>
