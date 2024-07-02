@@ -7,7 +7,7 @@ import extractCodeFromBuffer from './../functions/extractCodeFromBuffer'
 
 const conversationId = uuid()
 
-export default ({ setCodeBlocks, setCodeBlocksActive }) => {
+export default ({ sandboxMode, setCodeBlocks, setSandboxMode, setCodeBlocksActive }) => {
   const responseRef = useRef(null)
   const [prompt, setPrompt] = useState('')
   const [messages, setMessages] = useState([])
@@ -41,11 +41,19 @@ export default ({ setCodeBlocks, setCodeBlocksActive }) => {
       while (true) {
         const { done, value } = await reader.read()
         if (done) break
+
         const chunk = decoder.decode(value)
         _message += chunk
         const extractedCode = extractCodeFromBuffer(_message)
         setCodeBlocks(extractedCode)
+
         setCodeBlocksActive(true)
+
+        if (!sandboxMode) {
+          if (_message.includes('{ sandbox: true }')) {
+            setSandboxMode(true)
+          }
+        }
 
         let messageWithoutCode = _message
         extractedCode.forEach(codeBlock => {
