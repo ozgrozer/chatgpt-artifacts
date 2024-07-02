@@ -1,0 +1,54 @@
+.promptAndResponseWrapper {
+  bottom: 0;
+  left: 50%;
+  width: 700px;
+  height: 100%;
+  position: fixed;
+  margin-left: -350px;
+  &.codeBlocksActive {
+    margin-left: -700px;
+  }
+
+  .response {
+    gap: 30px;
+    height: 100%;
+    padding: 30px;
+    display: flex;
+    overflow-y: auto;
+    padding-bottom: 150px;
+    flex-direction: column;
+
+    .message {
+      color: #fff;
+      padding: 20px;
+      font-size: 16px;
+      border-radius: 10px;
+      white-space: pre-wrap;
+      border: 1px solid #3E3E38;
+      background-color: #343432;
+    }
+  }
+
+  .form {
+    left: 0;
+    bottom: 0;
+    width: 100%;
+    padding: 40px 20px;
+    position: absolute;
+
+    .input {
+      color: #fff;
+      width: 100%;
+      border: none;
+      resize: none;
+      min-height: 78px;
+      overflow: hidden;
+      padding: 15px 20px;
+      border-radius: 10px;
+      background-color: #393937;
+      &:focus {
+        background-color: #444;
+      }
+    }
+  }
+}

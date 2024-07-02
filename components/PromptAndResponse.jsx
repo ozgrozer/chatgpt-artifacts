@@ -1,13 +1,14 @@
 import { useRef, useState, useEffect, useCallback } from 'react'
 
+import clx from './../functions/clx'
 import uuid from './../functions/uuid'
 import AutoGrowingInput from './AutoGrowingInput'
-import styles from './../styles/chat.module.scss'
+import styles from './../styles/PromptAndResponse.module.scss'
 import extractCodeFromBuffer from './../functions/extractCodeFromBuffer'
 
 const conversationId = uuid()
 
-export default ({ sandboxMode, setCodeBlocks, setSandboxMode, setCodeBlocksActive }) => {
+export default ({ sandboxMode, setCodeBlocks, setSandboxMode, codeBlocksActive, setCodeBlocksActive }) => {
   const responseRef = useRef(null)
   const [prompt, setPrompt] = useState('')
   const [messages, setMessages] = useState([])
@@ -79,7 +80,7 @@ export default ({ sandboxMode, setCodeBlocks, setSandboxMode, setCodeBlocksActiv
   }, [setCodeBlocks])
 
   return (
-    <div className={styles.promptAndResponseWrapper}>
+    <div className={clx(styles.promptAndResponseWrapper, codeBlocksActive ? styles.codeBlocksActive : '')}>
       <div
         ref={responseRef}
         className={styles.response}

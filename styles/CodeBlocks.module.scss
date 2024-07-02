@@ -1,0 +1,73 @@
+.codeBlocksWrapper {
+  bottom: 0;
+  left: 50%;
+  width: 700px;
+  height: 100%;
+  padding: 30px;
+  display: none;
+  overflow: auto;
+  position: fixed;
+  &.show {
+    display: block;
+  }
+
+  .tabHeader {
+    gap: 5px;
+    height: 50px;
+    display: flex;
+    padding: 0 20px;
+    align-items: center;
+    background-color: #393937;
+    border: 1px solid #3E3E38;
+    border-top-left-radius: 10px;
+    border-top-right-radius: 10px;
+
+    .tabItem {
+      color: #fff;
+      height: 30px;
+      border: none;
+      cursor: pointer;
+      padding: 0 10px;
+      font-size: 13px;
+      font-weight: bold;
+      border-radius: 10px;
+      background-color: #2F2F2C;
+      text-transform: uppercase;
+      &.active {
+        background-color: #21201C;
+      }
+    }
+  }
+
+  .tabContent {
+    .tabItem {
+      margin: 0 !important;
+      border-top-left-radius: 0;
+      border-top-right-radius: 0;
+      &.preview {
+        background-color: #fff;
+      }
+      &.hidden {
+        width: 1px;
+        padding: 0;
+        height: 1px;
+        margin: -1px;
+        border-width: 0;
+        overflow: hidden;
+        position: absolute;
+        white-space: nowrap;
+        clip: rect(0, 0, 0, 0);
+      }
+      &.active {
+        clip: auto;
+        width: auto;
+        height: auto;
+        margin: initial;
+        position: static;
+        padding: initial;
+        overflow: visible;
+        white-space: normal;
+      }
+    }
+  }
+}

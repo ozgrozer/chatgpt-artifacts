@@ -2,7 +2,7 @@ import { useState } from 'react'
 
 import clx from './../functions/clx'
 import CodeBlocks from './CodeBlocks'
-import styles from './../styles/chat.module.scss'
+import styles from './../styles/Chat.module.scss'
 import PromptAndResponse from './PromptAndResponse'
 
 export default () => {
@@ -16,6 +16,7 @@ export default () => {
         sandboxMode={sandboxMode}
         setCodeBlocks={setCodeBlocks}
         setSandboxMode={setSandboxMode}
+        codeBlocksActive={codeBlocksActive}
         setCodeBlocksActive={setCodeBlocksActive}
       />
 

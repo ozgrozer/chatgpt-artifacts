@@ -4,7 +4,7 @@ import { oneDark } from 'react-syntax-highlighter/dist/cjs/styles/prism'
 
 import clx from './../functions/clx'
 import CodeRenderer from './CodeRenderer'
-import styles from './../styles/chat.module.scss'
+import styles from './../styles/CodeBlocks.module.scss'
 
 export default ({ codeBlocks, sandboxMode }) => {
   const [activeButton, setActiveButton] = useState('')
@@ -50,9 +50,31 @@ export default ({ codeBlocks, sandboxMode }) => {
       </div>
 
       <div className={styles.tabContent}>
-        <div className={clx(styles.tabItem, styles.preview, activeButton === 'preview' ? styles.active : styles.hidden)}>
-          <CodeRenderer codeBlocks={codeBlocks} />
-        </div>
+        {
+          sandboxMode
+            ? (
+              <div
+                className={clx(
+                  styles.tabItem,
+                  styles.console,
+                  activeButton === 'console' ? styles.active : styles.hidden
+                )}
+              >
+                console
+              </div>
+              )
+            : (
+              <div
+                className={clx(
+                  styles.tabItem,
+                  styles.preview,
+                  activeButton === 'preview' ? styles.active : styles.hidden
+                )}
+              >
+                <CodeRenderer codeBlocks={codeBlocks} />
+              </div>
+              )
+        }
 
         {codeBlocks.map((block, index) => (
           <SyntaxHighlighter
