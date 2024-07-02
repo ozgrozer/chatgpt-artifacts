@@ -4,15 +4,14 @@ import { exec } from 'child_process'
 
 import uuid from './../../functions/uuid'
 
-const content = `
-const http = require('http')
-const server = http.createServer((req, res) => {
-  res.writeHead(200, { 'Content-Type': 'text/plain' })
-  res.end('Hello World')
-})
-server.listen(3001, () => {
-  console.log('Server running at http://localhost:3001')
-})
+const content = `const { v4: uuidv4 } = require('uuid')
+const generateUniqueId = () => {
+  const uniqueId = uuidv4()
+  console.log(\`Generated Unique ID: \${uniqueId}\`)
+}
+for (let i = 0; i < 10; i++) {
+  generateUniqueId()
+}
 `
 
 const npmInstallCommand = 'npm install uuid'
@@ -51,10 +50,10 @@ const spawnNode = ({ sendMessage, serverJsPath }) => {
   return new Promise((resolve, reject) => {
     const serverProcess = spawn('node', [serverJsPath])
     serverProcess.stdout.on('data', data => {
-      sendMessage(`Server: ${data}`)
+      sendMessage(data.toString())
     })
     serverProcess.stderr.on('data', data => {
-      sendMessage(`Server: ${data}`)
+      sendMessage(data)
     })
     serverProcess.on('error', reject)
     serverProcess.on('exit', (code, signal) => {
@@ -66,6 +65,22 @@ const spawnNode = ({ sendMessage, serverJsPath }) => {
 
 export default async (req, res) => {
   const projectId = uuid()
+
+  const body = await new Promise(resolve => {
+    let data = ''
+    req.on('data', (chunk) => {
+      data += chunk
+    })
+    req.on('end', () => {
+      resolve(JSON.parse(data))
+    })
+  })
+
+  const { codeBlocks } = body
+  for (const key in codeBlocks) {
+    const item = codeBlocks[key]
+    console.log(item)
+  }
 
   res.writeHead(200, {
     Connection: 'keep-alive',
