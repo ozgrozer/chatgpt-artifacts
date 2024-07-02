@@ -78,7 +78,11 @@ export default ({ setCodeBlocks, setCodeBlocksActive }) => {
         {
           messages.map((msg, key) => {
             if (!msg) return null
-            return <pre key={key}>{msg}</pre>
+            return (
+              <div key={key} className={styles.message}>
+                {msg}
+              </div>
+            )
           })
         }
       </div>
