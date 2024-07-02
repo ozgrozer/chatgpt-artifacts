@@ -1,6 +1,6 @@
 import { Readable } from 'stream'
 import { promises as fs } from 'fs'
-import { exec } from 'child_process'
+import { exec, spawn } from 'child_process'
 
 import uuid from './../../functions/uuid'
 
@@ -35,7 +35,6 @@ const initNpm = async ({ bashCode, directoryPath }) => {
 }
 
 const spawnNode = ({ sendMessage, serverJsPath }) => {
-  const { spawn } = require('child_process')
   return new Promise((resolve, reject) => {
     const serverProcess = spawn('node', [serverJsPath])
     serverProcess.stdout.on('data', data => {
