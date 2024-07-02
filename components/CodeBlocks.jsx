@@ -6,7 +6,7 @@ import clx from './../functions/clx'
 import CodeRenderer from './CodeRenderer'
 import styles from './../styles/chat.module.scss'
 
-export default ({ codeBlocks }) => {
+export default ({ codeBlocks, sandboxMode }) => {
   const [activeButton, setActiveButton] = useState('')
 
   useEffect(() => {
@@ -18,12 +18,25 @@ export default ({ codeBlocks }) => {
   return (
     <div className={clx(styles.codeBlocksWrapper, codeBlocks.length ? styles.show : '')}>
       <div className={styles.tabHeader}>
-        <button
-          onClick={() => setActiveButton('preview')}
-          className={clx(styles.tabItem, activeButton === 'preview' ? styles.active : '')}
-        >
-          Preview
-        </button>
+        {
+          sandboxMode
+            ? (
+              <button
+                onClick={() => setActiveButton('console')}
+                className={clx(styles.tabItem, activeButton === 'console' ? styles.active : '')}
+              >
+                Console
+              </button>
+              )
+            : (
+              <button
+                onClick={() => setActiveButton('preview')}
+                className={clx(styles.tabItem, activeButton === 'preview' ? styles.active : '')}
+              >
+                Preview
+              </button>
+              )
+        }
 
         {codeBlocks.map((block, index) => (
           <button
