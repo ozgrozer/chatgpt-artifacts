@@ -4,32 +4,20 @@ import { exec } from 'child_process'
 
 import uuid from './../../functions/uuid'
 
-const content = `const { v4: uuidv4 } = require('uuid')
-const generateUniqueId = () => {
-  const uniqueId = uuidv4()
-  console.log(\`Generated Unique ID: \${uniqueId}\`)
-}
-for (let i = 0; i < 10; i++) {
-  generateUniqueId()
-}
-`
-
-const npmInstallCommand = 'npm install uuid'
-
-const createJsFile = async ({ content, serverJsPath, directoryPath }) => {
+const createJsFile = async ({ jsCode, serverJsPath, directoryPath }) => {
   try {
     await fs.mkdir(directoryPath, { recursive: true })
-    await fs.writeFile(serverJsPath, content)
+    await fs.writeFile(serverJsPath, jsCode)
   } catch (err) {
     console.error(err)
   }
 }
 
-const initNpm = async ({ directoryPath, npmInstallCommand }) => {
+const initNpm = async ({ bashCode, directoryPath }) => {
   const commands = [
     `cd ${directoryPath}`,
     'npm init -y',
-    npmInstallCommand
+    bashCode
   ]
   return new Promise((resolve, reject) => {
     exec(commands.join(' && '), (err, stdout, stderr) => {
@@ -76,10 +64,16 @@ export default async (req, res) => {
     })
   })
 
-  const { codeBlocks } = body
-  for (const key in codeBlocks) {
-    const item = codeBlocks[key]
-    console.log(item)
+  let jsCode = ''
+  let bashCode = ''
+  for (const key in body.codeBlocks) {
+    const item = body.codeBlocks[key]
+    if (item.language === 'bash') {
+      bashCode = item.code
+    }
+    if (item.language === 'js' || item.language === 'javascript') {
+      jsCode = item.code
+    }
   }
 
   res.writeHead(200, {
@@ -101,10 +95,10 @@ export default async (req, res) => {
     const serverJsPath = `${directoryPath}/server.js`
 
     sendMessage('Creating directory and file...')
-    await createJsFile({ content, serverJsPath, directoryPath })
+    await createJsFile({ jsCode, serverJsPath, directoryPath })
 
     sendMessage('Initializing npm and installing dependencies...')
-    await initNpm({ directoryPath, npmInstallCommand })
+    await initNpm({ bashCode, directoryPath })
 
     sendMessage('Starting Node.js server...')
     await spawnNode({ sendMessage, serverJsPath })
