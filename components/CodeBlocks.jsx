@@ -10,6 +10,7 @@ export default ({ codeBlocks }) => {
   const [activeButton, setActiveButton] = useState('')
 
   useEffect(() => {
+    if (activeButton && activeButton !== 'preview') return
     if (!codeBlocks.length) return
     setActiveButton(codeBlocks[0].language)
   }, [codeBlocks])
