@@ -4,6 +4,32 @@ import { exec, spawn } from 'child_process'
 
 import uuid from './../../functions/uuid'
 
+const getCode = async ({ req }) => {
+  const body = await new Promise(resolve => {
+    let data = ''
+    req.on('data', (chunk) => {
+      data += chunk
+    })
+    req.on('end', () => {
+      resolve(JSON.parse(data))
+    })
+  })
+
+  let jsCode = ''
+  let bashCode = ''
+  for (const key in body.codeBlocks) {
+    const item = body.codeBlocks[key]
+    if (item.language === 'bash') {
+      bashCode = item.code
+    }
+    if (item.language === 'js' || item.language === 'javascript') {
+      jsCode = item.code
+    }
+  }
+
+  return { jsCode, bashCode }
+}
+
 const createJsFile = async ({ jsCode, serverJsPath, directoryPath }) => {
   try {
     await fs.mkdir(directoryPath, { recursive: true })
@@ -54,27 +80,7 @@ const spawnNode = ({ sendMessage, serverJsPath }) => {
 export default async (req, res) => {
   const projectId = uuid()
 
-  const body = await new Promise(resolve => {
-    let data = ''
-    req.on('data', (chunk) => {
-      data += chunk
-    })
-    req.on('end', () => {
-      resolve(JSON.parse(data))
-    })
-  })
-
-  let jsCode = ''
-  let bashCode = ''
-  for (const key in body.codeBlocks) {
-    const item = body.codeBlocks[key]
-    if (item.language === 'bash') {
-      bashCode = item.code
-    }
-    if (item.language === 'js' || item.language === 'javascript') {
-      jsCode = item.code
-    }
-  }
+  const { jsCode, bashCode } = await getCode({ req })
 
   res.writeHead(200, {
     Connection: 'keep-alive',
