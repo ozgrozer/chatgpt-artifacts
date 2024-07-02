@@ -27,7 +27,7 @@ const initNpm = async ({ bashCode, directoryPath }) => {
         reject(err)
         return
       }
-      if (stdout) console.log(stdout)
+      // if (stdout) console.log(stdout)
       if (stderr) console.error(stderr)
       resolve()
     })
