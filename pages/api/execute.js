@@ -105,7 +105,7 @@ export default async (req, res) => {
     await initNpm({ bashCode, directoryPath })
 
     sendMessage('Spawning node executable\n')
-    await spawnNode({ sendMessage, serverJsPath })
+    spawnNode({ sendMessage, serverJsPath })
   } catch (err) {
     sendMessage(`Error: ${err.message}`)
   } finally {
