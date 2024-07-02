@@ -6,7 +6,7 @@ import extractCodeFromBuffer from './../functions/extractCodeFromBuffer'
 
 const conversationId = uuid()
 
-export default ({ setCodeBlocks }) => {
+export default ({ setCodeBlocks, setCodeBlocksActive }) => {
   const responseRef = useRef(null)
   const [prompt, setPrompt] = useState('')
   const [messages, setMessages] = useState([])
@@ -44,6 +44,7 @@ export default ({ setCodeBlocks }) => {
         _message += chunk
         const extractedCode = extractCodeFromBuffer(_message)
         setCodeBlocks(extractedCode)
+        setCodeBlocksActive(true)
 
         let messageWithoutCode = _message
         extractedCode.forEach(codeBlock => {

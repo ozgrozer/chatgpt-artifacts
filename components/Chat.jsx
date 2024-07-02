@@ -7,11 +7,13 @@ import PromptAndResponse from './PromptAndResponse'
 
 export default () => {
   const [codeBlocks, setCodeBlocks] = useState([])
+  const [codeBlocksActive, setCodeBlocksActive] = useState(false)
 
   return (
-    <div className={clx(styles.wrapper, codeBlocks.length ? styles.codeBlocksActive : '')}>
+    <div className={clx(styles.wrapper, codeBlocksActive ? styles.codeBlocksActive : '')}>
       <PromptAndResponse
         setCodeBlocks={setCodeBlocks}
+        setCodeBlocksActive={setCodeBlocksActive}
       />
 
       <CodeBlocks
