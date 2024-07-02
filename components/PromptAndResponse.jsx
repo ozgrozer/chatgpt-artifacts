@@ -1,6 +1,7 @@
 import { useRef, useState, useEffect, useCallback } from 'react'
 
 import uuid from './../functions/uuid'
+import AutoGrowingInput from './AutoGrowingInput'
 import styles from './../styles/chat.module.scss'
 import extractCodeFromBuffer from './../functions/extractCodeFromBuffer'
 
@@ -91,12 +92,12 @@ export default ({ setCodeBlocks, setCodeBlocksActive }) => {
         onSubmit={handleSubmit}
         className={styles.form}
       >
-        <input
-          type='text'
+        <AutoGrowingInput
           value={prompt}
+          onSubmit={handleSubmit}
           className={styles.input}
           placeholder='Enter your prompt'
-          onChange={(e) => setPrompt(e.target.value)}
+          onChange={e => setPrompt(e.target.value)}
         />
       </form>
     </div>

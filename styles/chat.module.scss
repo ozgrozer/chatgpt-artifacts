@@ -49,8 +49,10 @@
       color: #fff;
       width: 100%;
       border: none;
-      height: 50px;
-      padding: 0 15px;
+      resize: none;
+      padding: 15px;
+      min-height: 78px;
+      overflow: hidden;
       border-radius: 10px;
       background-color: #393937;
       &:focus {
