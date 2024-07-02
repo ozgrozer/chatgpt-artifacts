@@ -58,7 +58,7 @@ export default ({ codeBlocks, sandboxMode }) => {
                 language='bash'
                 className={clx(styles.tabItem, activeButton === 'console' ? styles.active : styles.hidden)}
               >
-                Server running at http://localhost:3000
+                Output will be shown here
               </SyntaxHighlighter>
               )
             : (
