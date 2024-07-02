@@ -100,15 +100,32 @@
 
   .tabContent {
     .tabItem {
-      display: none;
       margin: 0 !important;
       border-top-left-radius: 0;
       border-top-right-radius: 0;
-      &.active {
-        display: block;
-      }
       &.preview {
         background-color: #fff;
+      }
+      &.hidden {
+        width: 1px;
+        padding: 0;
+        height: 1px;
+        margin: -1px;
+        border-width: 0;
+        overflow: hidden;
+        position: absolute;
+        white-space: nowrap;
+        clip: rect(0, 0, 0, 0);
+      }
+      &.active {
+        clip: auto;
+        width: auto;
+        height: auto;
+        margin: initial;
+        position: static;
+        padding: initial;
+        overflow: visible;
+        white-space: normal;
       }
     }
   }

@@ -37,7 +37,7 @@ export default ({ codeBlocks }) => {
       </div>
 
       <div className={styles.tabContent}>
-        <div className={clx(styles.tabItem, styles.preview, activeButton === 'preview' ? styles.active : '')}>
+        <div className={clx(styles.tabItem, styles.preview, activeButton === 'preview' ? styles.active : styles.hidden)}>
           <CodeRenderer codeBlocks={codeBlocks} />
         </div>
 
@@ -46,7 +46,7 @@ export default ({ codeBlocks }) => {
             key={index}
             style={oneDark}
             language={block.language}
-            className={clx(styles.tabItem, activeButton === block.language ? styles.active : '')}
+            className={clx(styles.tabItem, activeButton === block.language ? styles.active : styles.hidden)}
           >
             {block.code}
           </SyntaxHighlighter>
