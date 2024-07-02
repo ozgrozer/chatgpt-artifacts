@@ -17,6 +17,7 @@ const initNpm = async ({ bashCode, directoryPath }) => {
   const commands = [
     `cd ${directoryPath}`,
     'npm init -y',
+    'npm pkg set type=module',
     bashCode
   ]
   return new Promise((resolve, reject) => {
