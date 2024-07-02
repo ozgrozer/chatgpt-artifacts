@@ -89,7 +89,10 @@ export default async (req, res) => {
 
   stream.pipe(res)
 
-  const sendMessage = message => stream.push(`${message}\n`)
+  const sendMessage = message => {
+    console.log(message)
+    stream.push(`${message}\n`)
+  }
 
   try {
     const directoryPath = `/tmp/chatgpt-artifacts/${projectId}`
