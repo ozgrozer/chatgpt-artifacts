@@ -10,7 +10,6 @@ export default ({ codeBlocks }) => {
   const [activeButton, setActiveButton] = useState('')
 
   useEffect(() => {
-    if (activeButton) return
     if (!codeBlocks.length) return
     setActiveButton(codeBlocks[0].language)
   }, [codeBlocks])
