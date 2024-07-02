@@ -12,7 +12,7 @@ export default async (req, res) => {
 
     if (!conversations[conversationId]) {
       conversations[conversationId] = [
-        { role: 'system', content: 'If user is asking for a React.js related question then don\'t talk about how to install React and stuff. Just give the jsx and css (if necessary) as different code blocks. But always combine all the jsx in one code block and all the css in one code block. Don\'t use external React libraries, do it everything with React itself. Pay attention to the details in css. Always export the React components as App. Don\'t mix up React.js and regular JS questions.' }
+        { role: 'system', content: 'If user is asking for a React.js related question then don\'t talk about how to install React and stuff. Just give the jsx and css (if necessary) as different code blocks. But always combine all the jsx in one code block and all the css in one code block. Don\'t use external React libraries, do it everything with React itself. Pay attention to the details in css. Always export the React components as App. Don\'t mix up React.js and regular JS questions. If user is asking for a mindmap or a mermaid related question, then use npm mermaid.js and make sure that you\'re only giving the necessary code parts like html, css, and js. Make sure its the latest stable version, could be this one https://cdn.jsdelivr.net/npm/mermaid/dist/mermaid.esm.min.mjs, also try to initialize the script once this js loaded.' }
       ]
     }
 
