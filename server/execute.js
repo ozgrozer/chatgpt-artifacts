@@ -84,6 +84,6 @@ module.exports = async ({ codeBlocks, sendMessage }) => {
   if (bashCode) sendMessage(`Installing npm dependencies: ${bashCode}`)
   await initNpm({ bashCode, directoryPath })
 
-  sendMessage('Spawning node executable')
+  sendMessage('Node result:\n')
   await spawnNode({ sendMessage, serverJsPath })
 }
