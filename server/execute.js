@@ -81,7 +81,6 @@ module.exports = async ({ codeBlocks, sendMessage }) => {
   sendMessage(`Creating project directory on ${directoryPath}`)
   await createJsFile({ jsCode, serverJsPath, directoryPath })
 
-  sendMessage('Initializing npm')
   if (bashCode) sendMessage(`Installing npm dependencies: ${bashCode}`)
   await initNpm({ bashCode, directoryPath })
 
