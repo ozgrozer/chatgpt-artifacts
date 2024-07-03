@@ -43,7 +43,7 @@
       }
 
       .spinner {
-        @include spinner($widthAndHeight: 10px);
+        @include spinner($widthAndHeight: 10px, $time: 600ms);
       }
     }
   }

@@ -1,5 +1,4 @@
-@mixin spinner ($widthAndHeight: 20px, $border: 2px, $backColor: #2D2C29, $frontColor: #fff) {
-  $time: 400ms;
+@mixin spinner ($widthAndHeight: 20px, $border: 2px, $time: 400ms, $backColor: #2D2C29, $frontColor: #fff) {
   border-radius: 50%;
   position: relative;
   width: $widthAndHeight;
