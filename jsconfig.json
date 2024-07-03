@@ -4,7 +4,6 @@
     "paths": {
       "@styles/*": ["styles/*"],
       "@functions/*": ["functions/*"],
-      "@socket.io/*": ["socket.io/*"],
       "@components/*": ["components/*"]
     }
   }
