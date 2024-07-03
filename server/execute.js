@@ -48,35 +48,30 @@ const initNpm = async ({ bashCode, directoryPath }) => {
   })
 }
 
-const spawnNode = ({ serverJsPath }) => {
+const spawnNode = ({ sendMessage, serverJsPath }) => {
   return new Promise((resolve, reject) => {
     const serverProcess = spawn('node', [serverJsPath])
     let stdoutData = ''
 
     serverProcess.stdout.on('data', (data) => {
       stdoutData += data.toString()
-      console.log(data.toString())
+      sendMessage(data.toString())
     })
 
     serverProcess.stderr.on('data', (data) => {
-      console.log(data.toString())
+      sendMessage(data.toString())
     })
 
     serverProcess.on('error', reject)
 
     serverProcess.on('exit', (code, signal) => {
-      console.log(`Server process exited with code ${code} and signal ${signal}`)
+      sendMessage(`Server process exited with code ${code} and signal ${signal}`)
       resolve(stdoutData)
     })
   })
 }
 
-module.exports = async ({ socket, codeBlocks }) => {
-  const sendMessage = message => {
-    console.log(message)
-    socket.broadcast.emit('codeBlocks', message)
-  }
-
+module.exports = async ({ codeBlocks, sendMessage }) => {
   const projectId = uuidv4()
   const { jsCode, bashCode } = getCode({ codeBlocks })
 
@@ -91,5 +86,5 @@ module.exports = async ({ socket, codeBlocks }) => {
   await initNpm({ bashCode, directoryPath })
 
   sendMessage('Spawning node executable\n')
-  await spawnNode({ serverJsPath })
+  await spawnNode({ sendMessage, serverJsPath })
 }
