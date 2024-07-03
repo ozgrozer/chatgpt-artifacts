@@ -1,29 +1,11 @@
-const net = require('net')
 const next = require('next')
 const socketIo = require('socket.io')
 const { createServer } = require('http')
 
+const findAvailablePort = require('./functions/findAvailablePort')
+
 const dev = process.env.NODE_ENV !== 'production'
 const app = next({ dev })
-
-const findAvailablePort = startPort => {
-  return new Promise((resolve, reject) => {
-    const server = net.createServer()
-
-    server.listen(startPort, () => {
-      const { port } = server.address()
-      server.close(() => resolve(port))
-    })
-
-    server.on('error', (err) => {
-      if (err.code === 'EADDRINUSE') {
-        findAvailablePort(startPort + 1).then(resolve, reject)
-      } else {
-        reject(err)
-      }
-    })
-  })
-}
 
 app.prepare().then(() => {
   const handle = app.getRequestHandler()
