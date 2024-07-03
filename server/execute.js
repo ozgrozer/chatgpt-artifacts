@@ -3,19 +3,19 @@ const { v4: uuidv4 } = require('uuid')
 const { exec, spawn } = require('child_process')
 
 const getCode = ({ codeBlocks }) => {
-  let jsCode = ''
-  let bashCode = ''
-  for (const key in codeBlocks) {
-    const item = codeBlocks[key]
-    if (item.language === 'bash') {
-      bashCode = item.code
+  const codeObject = {}
+  for (const item of codeBlocks) {
+    let language = item.language
+    if (language === 'js' || language === 'javascript') {
+      language = 'js'
     }
-    if (item.language === 'js' || item.language === 'javascript') {
-      jsCode = item.code
-    }
-  }
 
-  return { jsCode, bashCode }
+    if (!codeObject[language]) {
+      codeObject[language] = ''
+    }
+    codeObject[language] += item.code
+  }
+  return codeObject
 }
 
 const createJsFile = async ({ jsCode, serverJsPath, directoryPath }) => {
