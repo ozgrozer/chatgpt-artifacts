@@ -8,7 +8,6 @@ import PromptAndResponse from './PromptAndResponse'
 
 export default () => {
   const hasCalledBackend = useRef(false)
-  const [streamFinished, setStreamFinished] = useState(false)
   const [codeBlocksActive, setCodeBlocksActive] = useState(false)
 
   return (
@@ -17,12 +16,10 @@ export default () => {
         <PromptAndResponse
           codeBlocksActive={codeBlocksActive}
           hasCalledBackend={hasCalledBackend}
-          setStreamFinished={setStreamFinished}
           setCodeBlocksActive={setCodeBlocksActive}
         />
 
         <CodeBlocks
-          streamFinished={streamFinished}
           hasCalledBackend={hasCalledBackend}
         />
       </div>

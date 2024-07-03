@@ -8,9 +8,9 @@ import CodeRenderer from './CodeRenderer'
 import styles from '@styles/CodeBlocks.module.scss'
 import { useAppContext } from '@contexts/AppContext'
 
-export default ({ streamFinished, hasCalledBackend }) => {
+export default ({ hasCalledBackend }) => {
   const { state } = useAppContext()
-  const { codeBlocks, sandboxMode } = state
+  const { codeBlocks, sandboxMode, streamFinished } = state
 
   const [activeButton, setActiveButton] = useState('')
 

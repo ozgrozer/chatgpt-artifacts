@@ -9,7 +9,7 @@ import extractCodeFromBuffer from '@functions/extractCodeFromBuffer'
 
 const conversationId = uuidv4()
 
-export default ({ codeBlocksActive, hasCalledBackend, setStreamFinished, setCodeBlocksActive }) => {
+export default ({ codeBlocksActive, hasCalledBackend, setCodeBlocksActive }) => {
   const { state, setState } = useAppContext()
   const { sandboxMode } = state
 
@@ -41,7 +41,7 @@ export default ({ codeBlocksActive, hasCalledBackend, setStreamFinished, setCode
         throw new Error(`HTTP error! status: ${response.status}`)
       }
 
-      setStreamFinished(false)
+      setState({ streamFinished: false })
       hasCalledBackend.current = false
 
       const reader = response.body.getReader()
@@ -49,7 +49,7 @@ export default ({ codeBlocksActive, hasCalledBackend, setStreamFinished, setCode
       let _message = ''
       while (true) {
         const { done, value } = await reader.read()
-        if (done) setStreamFinished(true)
+        if (done) setState({ streamFinished: true })
         if (done) break
 
         const chunk = decoder.decode(value)
