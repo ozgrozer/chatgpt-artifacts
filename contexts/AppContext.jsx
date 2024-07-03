@@ -4,7 +4,8 @@ const Context = createContext()
 
 export function AppProvider ({ children }) {
   const [state, setState] = useState({
-    codeBlocks: []
+    codeBlocks: [],
+    sandboxMode: false
   })
 
   const _setState = updater => {

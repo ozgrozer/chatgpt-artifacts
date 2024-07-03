@@ -9,8 +9,9 @@ import extractCodeFromBuffer from '@functions/extractCodeFromBuffer'
 
 const conversationId = uuidv4()
 
-export default ({ sandboxMode, setSandboxMode, codeBlocksActive, hasCalledBackend, setStreamFinished, setCodeBlocksActive }) => {
-  const { setState } = useAppContext()
+export default ({ codeBlocksActive, hasCalledBackend, setStreamFinished, setCodeBlocksActive }) => {
+  const { state, setState } = useAppContext()
+  const { sandboxMode } = state
 
   const responseRef = useRef(null)
   const [prompt, setPrompt] = useState('')
@@ -60,7 +61,7 @@ export default ({ sandboxMode, setSandboxMode, codeBlocksActive, hasCalledBacken
 
         if (!sandboxMode) {
           if (_message.includes('{ sandbox: true }')) {
-            setSandboxMode(true)
+            setState({ sandboxMode: true })
           }
         }
 
