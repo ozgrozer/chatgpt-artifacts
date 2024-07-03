@@ -8,7 +8,6 @@ import PromptAndResponse from './PromptAndResponse'
 
 export default () => {
   const hasCalledBackend = useRef(false)
-  const [codeBlocks, setCodeBlocks] = useState([])
   const [sandboxMode, setSandboxMode] = useState(false)
   const [streamFinished, setStreamFinished] = useState(false)
   const [codeBlocksActive, setCodeBlocksActive] = useState(false)
@@ -18,7 +17,6 @@ export default () => {
       <div className={clx(styles.wrapper, codeBlocksActive ? styles.codeBlocksActive : '')}>
         <PromptAndResponse
           sandboxMode={sandboxMode}
-          setCodeBlocks={setCodeBlocks}
           setSandboxMode={setSandboxMode}
           codeBlocksActive={codeBlocksActive}
           hasCalledBackend={hasCalledBackend}
@@ -27,7 +25,6 @@ export default () => {
         />
 
         <CodeBlocks
-          codeBlocks={codeBlocks}
           sandboxMode={sandboxMode}
           streamFinished={streamFinished}
           hasCalledBackend={hasCalledBackend}

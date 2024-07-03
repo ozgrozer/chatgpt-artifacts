@@ -3,12 +3,15 @@ import { useRef, useState, useEffect, useCallback } from 'react'
 
 import clx from '@functions/clx'
 import AutoGrowingInput from './AutoGrowingInput'
+import { useAppContext } from '@contexts/AppContext'
 import styles from '@styles/PromptAndResponse.module.scss'
 import extractCodeFromBuffer from '@functions/extractCodeFromBuffer'
 
 const conversationId = uuidv4()
 
-export default ({ sandboxMode, setCodeBlocks, setSandboxMode, codeBlocksActive, hasCalledBackend, setStreamFinished, setCodeBlocksActive }) => {
+export default ({ sandboxMode, setSandboxMode, codeBlocksActive, hasCalledBackend, setStreamFinished, setCodeBlocksActive }) => {
+  const { setState } = useAppContext()
+
   const responseRef = useRef(null)
   const [prompt, setPrompt] = useState('')
   const [messages, setMessages] = useState([])
@@ -51,7 +54,7 @@ export default ({ sandboxMode, setCodeBlocks, setSandboxMode, codeBlocksActive, 
         const chunk = decoder.decode(value)
         _message += chunk
         const extractedCode = extractCodeFromBuffer(_message)
-        setCodeBlocks(extractedCode)
+        setState({ codeBlocks: extractedCode })
 
         setCodeBlocksActive(true)
 
@@ -82,7 +85,7 @@ export default ({ sandboxMode, setCodeBlocks, setSandboxMode, codeBlocksActive, 
         return newMessages
       })
     }
-  }, [setCodeBlocks])
+  }, [setState])
 
   return (
     <div className={clx(styles.promptAndResponseWrapper, codeBlocksActive ? styles.codeBlocksActive : '')}>

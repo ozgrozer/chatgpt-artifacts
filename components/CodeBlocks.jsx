@@ -6,8 +6,12 @@ import { oneDark } from 'react-syntax-highlighter/dist/cjs/styles/prism'
 import clx from '@functions/clx'
 import CodeRenderer from './CodeRenderer'
 import styles from '@styles/CodeBlocks.module.scss'
+import { useAppContext } from '@contexts/AppContext'
 
-export default ({ codeBlocks, sandboxMode, streamFinished, hasCalledBackend }) => {
+export default ({ sandboxMode, streamFinished, hasCalledBackend }) => {
+  const { state } = useAppContext()
+  const { codeBlocks } = state
+
   const [activeButton, setActiveButton] = useState('')
 
   useEffect(() => {

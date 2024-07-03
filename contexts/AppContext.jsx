@@ -3,7 +3,9 @@ import { useState, useContext, createContext } from 'react'
 const Context = createContext()
 
 export function AppProvider ({ children }) {
-  const [state, setState] = useState({})
+  const [state, setState] = useState({
+    codeBlocks: []
+  })
 
   const _setState = updater => {
     if (typeof updater === 'function') {
