@@ -16,7 +16,7 @@ export default ({ codeBlocks, sandboxMode, streamFinished }) => {
     setActiveButton(codeBlocks[0].language)
   }, [codeBlocks])
 
-  const [output, setOutput] = useState('Output will be shown here')
+  const [output, setOutput] = useState([])
   useEffect(() => {
     const socket = io()
     socket.on('codeBlocks', message => {
@@ -84,7 +84,7 @@ export default ({ codeBlocks, sandboxMode, streamFinished }) => {
                 language='bash'
                 className={clx(styles.tabItem, activeButton === 'console' ? styles.active : styles.hidden)}
               >
-                {output}
+                {output.join('\n')}
               </SyntaxHighlighter>
               )
             : (
