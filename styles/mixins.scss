@@ -1,0 +1,31 @@
+@mixin spinner ($widthAndHeight: 20px, $border: 2px, $backColor: #2D2C29, $frontColor: #fff) {
+  $time: 400ms;
+  border-radius: 50%;
+  position: relative;
+  width: $widthAndHeight;
+  height: $widthAndHeight;
+  &:before,
+  &:after {
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    content: '';
+    border-radius: 50%;
+    position: absolute;
+    border: $border solid transparent;
+  }
+  &:before {
+    border-color: $backColor;
+  }
+  &:after {
+    border-left-color: $frontColor;
+    border-bottom-color: $frontColor;
+    animation: spinner $time linear infinite;
+  }
+
+  @keyframes spinner {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+  }
+}
