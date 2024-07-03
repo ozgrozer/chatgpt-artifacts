@@ -6,12 +6,15 @@ const findAvailablePort = require('./functions/findAvailablePort')
 
 const dev = process.env.NODE_ENV !== 'production'
 const app = next({ dev })
+const handle = app.getRequestHandler()
 
 app.prepare().then(() => {
-  const handle = app.getRequestHandler()
-
   const server = createServer((req, res) => {
-    handle(req, res)
+    if (req.url === '/') {
+      return app.render(req, res, '/', req.query)
+    }
+
+    return handle(req, res)
   })
 
   const io = socketIo(server)
