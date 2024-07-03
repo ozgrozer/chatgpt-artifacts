@@ -2,6 +2,7 @@ const next = require('next')
 const socketIo = require('socket.io')
 const { createServer } = require('http')
 
+const execute = require('./execute')
 const findAvailablePort = require('./findAvailablePort')
 
 const dev = process.env.NODE_ENV !== 'production'
@@ -20,8 +21,8 @@ app.prepare().then(() => {
   const io = socketIo(server)
 
   io.on('connection', socket => {
-    socket.on('message', message => {
-      socket.broadcast.emit('message', `server: ${message}`)
+    socket.on('codeBlocks', codeBlocks => {
+      execute({ socket, codeBlocks })
     })
   })
 
