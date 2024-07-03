@@ -17,7 +17,9 @@
     "openai": "^4.52.0",
     "react": "^18.3.1",
     "react-dom": "^18.3.1",
-    "react-syntax-highlighter": "^15.5.0"
+    "react-syntax-highlighter": "^15.5.0",
+    "socket.io": "^4.7.5",
+    "socket.io-client": "^4.7.5"
   },
   "devDependencies": {
     "nodemon": "^3.1.4",
