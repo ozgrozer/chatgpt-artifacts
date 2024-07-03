@@ -7,7 +7,7 @@ import clx from './../functions/clx'
 import CodeRenderer from './CodeRenderer'
 import styles from './../styles/CodeBlocks.module.scss'
 
-export default ({ codeBlocks, sandboxMode, streamFinished }) => {
+export default ({ codeBlocks, sandboxMode, streamFinished, hasCalledBackend }) => {
   const [activeButton, setActiveButton] = useState('')
 
   useEffect(() => {
@@ -30,7 +30,6 @@ export default ({ codeBlocks, sandboxMode, streamFinished }) => {
     socket.emit('codeBlocks', codeBlocks)
   }
 
-  const hasCalledBackend = useRef(false)
   useEffect(() => {
     const complete = streamFinished &&
       codeBlocks.length > 0 &&

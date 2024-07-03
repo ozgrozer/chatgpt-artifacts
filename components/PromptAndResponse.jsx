@@ -8,7 +8,7 @@ import extractCodeFromBuffer from './../functions/extractCodeFromBuffer'
 
 const conversationId = uuidv4()
 
-export default ({ sandboxMode, setCodeBlocks, setSandboxMode, codeBlocksActive, setStreamFinished, setCodeBlocksActive }) => {
+export default ({ sandboxMode, setCodeBlocks, setSandboxMode, codeBlocksActive, hasCalledBackend, setStreamFinished, setCodeBlocksActive }) => {
   const responseRef = useRef(null)
   const [prompt, setPrompt] = useState('')
   const [messages, setMessages] = useState([])
@@ -36,6 +36,10 @@ export default ({ sandboxMode, setCodeBlocks, setSandboxMode, codeBlocksActive, 
       if (!response.ok) {
         throw new Error(`HTTP error! status: ${response.status}`)
       }
+
+      setStreamFinished(false)
+      hasCalledBackend.current = false
+
       const reader = response.body.getReader()
       const decoder = new TextDecoder()
       let _message = ''
