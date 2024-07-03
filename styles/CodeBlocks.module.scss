@@ -1,3 +1,5 @@
+@import '@styles/mixins';
+
 .codeBlocksWrapper {
   bottom: 0;
   left: 50%;
@@ -23,18 +25,25 @@
     border-top-right-radius: 10px;
 
     .tabItem {
+      gap: 5px;
       color: #fff;
       height: 30px;
       border: none;
+      display: flex;
       cursor: pointer;
       padding: 0 10px;
       font-size: 13px;
       font-weight: bold;
+      align-items: center;
       border-radius: 10px;
       background-color: #2F2F2C;
       text-transform: uppercase;
       &.active {
         background-color: #21201C;
+      }
+
+      .spinner {
+        @include spinner($widthAndHeight: 10px);
       }
     }
   }

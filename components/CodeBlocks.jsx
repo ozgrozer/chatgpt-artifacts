@@ -57,7 +57,12 @@ export default ({ hasCalledBackend }) => {
                 onClick={() => setState({ activeButton: 'console' })}
                 className={clx(styles.tabItem, activeButton === 'console' ? styles.active : '')}
               >
-                Console {(consoleOutput.length && !consoleOutputFinished) ? 'l' : ''}
+                <span>Console</span>
+                {
+                  (consoleOutput.length && !consoleOutputFinished)
+                    ? <span className={styles.spinner} />
+                    : null
+                }
               </button>
               )
             : (
