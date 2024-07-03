@@ -75,15 +75,22 @@ export default ({ hasCalledBackend }) => {
               )
         }
 
-        {codeBlocks.map((block, index) => (
-          <button
-            key={index}
-            onClick={() => setState({ activeButton: block.language })}
-            className={clx(styles.tabItem, activeButton === block.language ? styles.active : '')}
-          >
-            {block.language}
-          </button>
-        ))}
+        {codeBlocks.map((block, index) => {
+          return (
+            <button
+              key={index}
+              onClick={() => setState({ activeButton: block.language })}
+              className={clx(styles.tabItem, activeButton === block.language ? styles.active : '')}
+            >
+              <span>{block.language}</span>
+              {
+                (!block.complete)
+                  ? <span className={styles.spinner} />
+                  : null
+              }
+            </button>
+          )
+        })}
       </div>
 
       <div className={styles.tabContent}>
