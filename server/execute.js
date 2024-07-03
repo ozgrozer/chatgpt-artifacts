@@ -73,7 +73,7 @@ const spawnNode = ({ sendMessage, serverJsPath }) => {
     serverProcess.on('error', reject)
 
     serverProcess.on('exit', (code, signal) => {
-      console.log(`Server process exited with code ${code} and signal ${signal}`)
+      sendMessage(`Server process exited with code ${code} and signal ${signal}`)
       resolve(stdoutData)
     })
   })
