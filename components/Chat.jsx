@@ -6,23 +6,29 @@ import styles from '@styles/Chat.module.scss'
 import { AppProvider } from '@contexts/AppContext'
 import PromptAndResponse from './PromptAndResponse'
 
-export default () => {
+const App = () => {
   const hasCalledBackend = useRef(false)
   const [codeBlocksActive, setCodeBlocksActive] = useState(false)
 
   return (
-    <AppProvider>
-      <div className={clx(styles.wrapper, codeBlocksActive ? styles.codeBlocksActive : '')}>
-        <PromptAndResponse
-          codeBlocksActive={codeBlocksActive}
-          hasCalledBackend={hasCalledBackend}
-          setCodeBlocksActive={setCodeBlocksActive}
-        />
+    <div className={clx(styles.wrapper, codeBlocksActive ? styles.codeBlocksActive : '')}>
+      <PromptAndResponse
+        codeBlocksActive={codeBlocksActive}
+        hasCalledBackend={hasCalledBackend}
+        setCodeBlocksActive={setCodeBlocksActive}
+      />
 
-        <CodeBlocks
-          hasCalledBackend={hasCalledBackend}
-        />
-      </div>
+      <CodeBlocks
+        hasCalledBackend={hasCalledBackend}
+      />
+    </div>
+  )
+}
+
+export default () => {
+  return (
+    <AppProvider>
+      <App />
     </AppProvider>
   )
 }
