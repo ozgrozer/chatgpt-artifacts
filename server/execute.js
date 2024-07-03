@@ -55,7 +55,7 @@ const spawnNode = ({ sendMessage, serverJsPath }) => {
 
     serverProcess.stdout.on('data', (data) => {
       stdoutData += data.toString()
-      sendMessage(data.toString())
+      sendMessage(data.toString().replace(/\r?\n|\r/g, ' '))
     })
 
     serverProcess.stderr.on('data', (data) => {
