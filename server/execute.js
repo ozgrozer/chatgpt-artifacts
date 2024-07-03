@@ -10,10 +10,11 @@ const getCode = ({ codeBlocks }) => {
       language = 'js'
     }
 
-    if (!codeObject[language]) {
-      codeObject[language] = ''
+    const _language = `${language}Code`
+    if (!codeObject[_language]) {
+      codeObject[_language] = ''
     }
-    codeObject[language] += item.code
+    codeObject[_language] = item.code
   }
   return codeObject
 }
