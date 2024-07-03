@@ -6,7 +6,8 @@ export function AppProvider ({ children }) {
   const [state, setState] = useState({
     codeBlocks: [],
     sandboxMode: false,
-    streamFinished: false
+    streamFinished: false,
+    codeBlocksActive: false
   })
 
   const _setState = updater => {
