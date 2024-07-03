@@ -18,10 +18,15 @@ const getCode = ({ codeBlocks }) => {
   return codeObject
 }
 
-const createJsFile = async ({ jsCode, serverJsPath, directoryPath }) => {
+const createJsFile = async ({ jsCode, htmlCode, serverJsPath, directoryPath }) => {
   try {
     await fs.mkdir(directoryPath, { recursive: true })
     await fs.writeFile(serverJsPath, jsCode)
+
+    if (htmlCode) {
+      const indexHtmlPath = `${directoryPath}/index.html`
+      await fs.writeFile(indexHtmlPath, htmlCode)
+    }
   } catch (err) {
     console.error(err)
   }
@@ -73,13 +78,13 @@ const spawnNode = ({ sendMessage, serverJsPath }) => {
 
 module.exports = async ({ codeBlocks, sendMessage }) => {
   const projectId = uuidv4()
-  const { jsCode, bashCode } = getCode({ codeBlocks })
+  const { jsCode, bashCode, htmlCode } = getCode({ codeBlocks })
 
   const directoryPath = `/tmp/chatgpt-artifacts/${projectId}`
   const serverJsPath = `${directoryPath}/server.js`
 
   sendMessage(`Creating project directory on ${directoryPath}`)
-  await createJsFile({ jsCode, serverJsPath, directoryPath })
+  await createJsFile({ jsCode, htmlCode, serverJsPath, directoryPath })
 
   if (bashCode) sendMessage(`Installing: ${bashCode}`)
   await initNpm({ bashCode, directoryPath })
