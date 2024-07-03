@@ -42,6 +42,7 @@ export default ({ hasCalledBackend }) => {
       }
 
       setState({
+        activeButton: '',
         consoleOutput: [],
         streamFinished: false
       })

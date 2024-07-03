@@ -1,5 +1,5 @@
 import io from 'socket.io-client'
-import { useState, useEffect } from 'react'
+import { useEffect } from 'react'
 import { Prism as SyntaxHighlighter } from 'react-syntax-highlighter'
 import { oneDark } from 'react-syntax-highlighter/dist/cjs/styles/prism'
 
@@ -10,14 +10,12 @@ import { useAppContext } from '@contexts/AppContext'
 
 export default ({ hasCalledBackend }) => {
   const { state, setState } = useAppContext()
-  const { codeBlocks, sandboxMode, consoleOutput, streamFinished } = state
-
-  const [activeButton, setActiveButton] = useState('')
+  const { codeBlocks, sandboxMode, activeButton, consoleOutput, streamFinished } = state
 
   useEffect(() => {
     if (activeButton && activeButton !== 'preview') return
     if (!codeBlocks.length) return
-    setActiveButton(codeBlocks[0].language)
+    setState({ activeButton: codeBlocks[0].language })
   }, [codeBlocks])
 
   useEffect(() => {
@@ -53,7 +51,7 @@ export default ({ hasCalledBackend }) => {
           sandboxMode
             ? (
               <button
-                onClick={() => setActiveButton('console')}
+                onClick={() => setState({ activeButton: 'console' })}
                 className={clx(styles.tabItem, activeButton === 'console' ? styles.active : '')}
               >
                 Console
@@ -61,7 +59,7 @@ export default ({ hasCalledBackend }) => {
               )
             : (
               <button
-                onClick={() => setActiveButton('preview')}
+                onClick={() => setState({ activeButton: 'preview' })}
                 className={clx(styles.tabItem, activeButton === 'preview' ? styles.active : '')}
               >
                 Preview
@@ -72,7 +70,7 @@ export default ({ hasCalledBackend }) => {
         {codeBlocks.map((block, index) => (
           <button
             key={index}
-            onClick={() => setActiveButton(block.language)}
+            onClick={() => setState({ activeButton: block.language })}
             className={clx(styles.tabItem, activeButton === block.language ? styles.active : '')}
           >
             {block.language}

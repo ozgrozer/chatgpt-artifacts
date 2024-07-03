@@ -5,6 +5,7 @@ const Context = createContext()
 export function AppProvider ({ children }) {
   const [state, setState] = useState({
     codeBlocks: [],
+    activeButton: '',
     sandboxMode: false,
     streamFinished: false,
     codeBlocksActive: false
