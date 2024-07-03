@@ -2,7 +2,7 @@ const next = require('next')
 const socketIo = require('socket.io')
 const { createServer } = require('http')
 
-const findAvailablePort = require('./functions/findAvailablePort')
+const findAvailablePort = require('./findAvailablePort')
 
 const dev = process.env.NODE_ENV !== 'production'
 const app = next({ dev })
