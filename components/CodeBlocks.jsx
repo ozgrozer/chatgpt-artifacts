@@ -10,7 +10,7 @@ import { useAppContext } from '@contexts/AppContext'
 
 export default ({ hasCalledBackend }) => {
   const { state, setState } = useAppContext()
-  const { codeBlocks, sandboxMode, activeButton, consoleOutput, streamFinished } = state
+  const { codeBlocks, sandboxMode, activeButton, consoleOutput, streamFinished, consoleOutputFinished } = state
 
   useEffect(() => {
     if (activeButton && activeButton !== 'preview') return
@@ -25,6 +25,9 @@ export default ({ hasCalledBackend }) => {
         ...prevState,
         consoleOutput: [...prevState.consoleOutput, message]
       }))
+
+      const consoleOutputFinished = message.includes('Server process exited')
+      setState({ consoleOutputFinished })
     })
     return () => socket.disconnect()
   }, [])
@@ -54,7 +57,7 @@ export default ({ hasCalledBackend }) => {
                 onClick={() => setState({ activeButton: 'console' })}
                 className={clx(styles.tabItem, activeButton === 'console' ? styles.active : '')}
               >
-                Console
+                Console {(consoleOutput.length && !consoleOutputFinished) ? 'l' : ''}
               </button>
               )
             : (
