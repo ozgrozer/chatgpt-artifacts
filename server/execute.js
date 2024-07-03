@@ -74,7 +74,7 @@ const spawnNode = ({ serverJsPath }) => {
 module.exports = async ({ socket, codeBlocks }) => {
   const sendMessage = message => {
     console.log(message)
-    socket.broadcast.emit('message', message)
+    socket.broadcast.emit('codeBlocks', message)
   }
 
   const projectId = uuidv4()
