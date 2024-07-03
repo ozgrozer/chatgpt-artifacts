@@ -1,12 +1,12 @@
+import { v4 as uuidv4 } from 'uuid'
 import { useRef, useState, useEffect, useCallback } from 'react'
 
 import clx from './../functions/clx'
-import uuid from './../functions/uuid'
 import AutoGrowingInput from './AutoGrowingInput'
 import styles from './../styles/PromptAndResponse.module.scss'
 import extractCodeFromBuffer from './../functions/extractCodeFromBuffer'
 
-const conversationId = uuid()
+const conversationId = uuidv4()
 
 export default ({ sandboxMode, setCodeBlocks, setSandboxMode, codeBlocksActive, setStreamFinished, setCodeBlocksActive }) => {
   const responseRef = useRef(null)

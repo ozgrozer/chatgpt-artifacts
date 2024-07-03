@@ -1,7 +1,6 @@
-import { promises as fs } from 'fs'
-import { exec, spawn } from 'child_process'
-
-import uuid from './../../functions/uuid'
+const fs = require('fs').promises
+const { v4: uuidv4 } = require('uuid')
+const { exec, spawn } = require('child_process')
 
 const getCode = ({ codeBlocks }) => {
   let jsCode = ''
@@ -100,7 +99,7 @@ const generateStream = async ({ jsCode, bashCode, serverJsPath, directoryPath })
 }
 
 export default async (req, res) => {
-  const projectId = uuid()
+  const projectId = uuidv4()
 
   const { codeBlocks } = req.body
   const { jsCode, bashCode } = getCode({ codeBlocks })
