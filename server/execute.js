@@ -18,7 +18,7 @@ const getCode = ({ codeBlocks }) => {
   return codeObject
 }
 
-const createJsFile = async ({ jsCode, htmlCode, serverJsPath, directoryPath }) => {
+const createFiles = async ({ jsCode, htmlCode, serverJsPath, directoryPath }) => {
   try {
     await fs.mkdir(directoryPath, { recursive: true })
     await fs.writeFile(serverJsPath, jsCode)
@@ -84,7 +84,7 @@ module.exports = async ({ codeBlocks, sendMessage }) => {
   const serverJsPath = `${directoryPath}/server.js`
 
   sendMessage(`Creating project directory on ${directoryPath}`)
-  await createJsFile({ jsCode, htmlCode, serverJsPath, directoryPath })
+  await createFiles({ jsCode, htmlCode, serverJsPath, directoryPath })
 
   if (bashCode) sendMessage(`Installing: ${bashCode}`)
   await initNpm({ bashCode, directoryPath })
