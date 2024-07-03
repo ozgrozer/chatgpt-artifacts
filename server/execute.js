@@ -25,7 +25,9 @@ const createFiles = async ({ jsCode, htmlCode, serverJsPath, directoryPath }) =>
     await fs.writeFile(serverJsPath, jsCode)
 
     if (htmlCode) {
-      const indexHtmlPath = `${directoryPath}/public/index.html`
+      const publicDirectoryPath = `${directoryPath}/public`
+      const indexHtmlPath = `${publicDirectoryPath}/index.html`
+      await fs.mkdir(publicDirectoryPath)
       await fs.writeFile(indexHtmlPath, htmlCode)
     }
   } catch (err) {
