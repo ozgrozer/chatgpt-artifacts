@@ -65,7 +65,7 @@ export default ({ hasCalledBackend }) => {
         })
 
         if (!sandboxMode) {
-          if (_message.includes('{ sandbox: true }')) {
+          if (_message.includes('sandbox: true')) {
             setState({ sandboxMode: true })
           }
         }
