@@ -1,4 +1,5 @@
-import { useRef, useState, useEffect, useCallback } from 'react'
+import io from 'socket.io-client'
+import { useRef, useState, useEffect } from 'react'
 import { Prism as SyntaxHighlighter } from 'react-syntax-highlighter'
 import { oneDark } from 'react-syntax-highlighter/dist/cjs/styles/prism'
 
@@ -16,30 +17,18 @@ export default ({ codeBlocks, sandboxMode, streamFinished }) => {
   }, [codeBlocks])
 
   const [output, setOutput] = useState('Output will be shown here')
-  const fetchStream = useCallback(async ({ codeBlocks }) => {
-    try {
-      const response = await fetch('/api/execute', {
-        method: 'POST',
-        body: JSON.stringify({ codeBlocks }),
-        headers: { 'Content-Type': 'application/json' }
-      })
-      if (!response.ok) {
-        throw new Error(`HTTP error! status: ${response.status}`)
-      }
-      const reader = response.body.getReader()
-      const decoder = new TextDecoder()
-      let _message = ''
-      while (true) {
-        const { done, value } = await reader.read()
-        if (done) break
+  useEffect(() => {
+    const socket = io()
+    socket.on('codeBlocks', message => {
+      setOutput(prevMessages => [...prevMessages, message])
+    })
+    return () => socket.disconnect()
+  }, [])
 
-        const chunk = decoder.decode(value)
-        _message += chunk
-        setOutput(_message)
-      }
-    } catch (error) {
-    }
-  }, [setOutput])
+  const socketSend = ({ codeBlocks }) => {
+    const socket = io()
+    socket.emit('codeBlocks', codeBlocks)
+  }
 
   const hasCalledBackend = useRef(false)
   useEffect(() => {
@@ -47,7 +36,7 @@ export default ({ codeBlocks, sandboxMode, streamFinished }) => {
       codeBlocks.length > 0 &&
       codeBlocks.every(item => item.complete)
     if (complete && !hasCalledBackend.current) {
-      fetchStream({ codeBlocks })
+      socketSend({ codeBlocks })
       hasCalledBackend.current = true
     }
   }, [codeBlocks, streamFinished])
