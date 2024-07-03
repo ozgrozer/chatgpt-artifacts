@@ -9,9 +9,9 @@ import extractCodeFromBuffer from '@functions/extractCodeFromBuffer'
 
 const conversationId = uuidv4()
 
-export default ({ codeBlocksActive, hasCalledBackend, setCodeBlocksActive }) => {
+export default ({ hasCalledBackend }) => {
   const { state, setState } = useAppContext()
-  const { sandboxMode } = state
+  const { sandboxMode, codeBlocksActive } = state
 
   const responseRef = useRef(null)
   const [prompt, setPrompt] = useState('')
@@ -55,9 +55,10 @@ export default ({ codeBlocksActive, hasCalledBackend, setCodeBlocksActive }) => 
         const chunk = decoder.decode(value)
         _message += chunk
         const extractedCode = extractCodeFromBuffer(_message)
-        setState({ codeBlocks: extractedCode })
-
-        setCodeBlocksActive(true)
+        setState({
+          codeBlocksActive: true,
+          codeBlocks: extractedCode
+        })
 
         if (!sandboxMode) {
           if (_message.includes('{ sandbox: true }')) {

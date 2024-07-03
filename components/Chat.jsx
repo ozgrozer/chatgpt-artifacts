@@ -1,21 +1,26 @@
-import { useRef, useState } from 'react'
+import { useRef } from 'react'
 
 import clx from '@functions/clx'
 import CodeBlocks from './CodeBlocks'
 import styles from '@styles/Chat.module.scss'
-import { AppProvider } from '@contexts/AppContext'
 import PromptAndResponse from './PromptAndResponse'
+import { AppProvider, useAppContext } from '@contexts/AppContext'
 
 const App = () => {
+  const { state } = useAppContext()
+  const { codeBlocksActive } = state
+
   const hasCalledBackend = useRef(false)
-  const [codeBlocksActive, setCodeBlocksActive] = useState(false)
 
   return (
-    <div className={clx(styles.wrapper, codeBlocksActive ? styles.codeBlocksActive : '')}>
+    <div
+      className={clx(
+        styles.wrapper,
+        codeBlocksActive ? styles.codeBlocksActive : ''
+      )}
+    >
       <PromptAndResponse
-        codeBlocksActive={codeBlocksActive}
         hasCalledBackend={hasCalledBackend}
-        setCodeBlocksActive={setCodeBlocksActive}
       />
 
       <CodeBlocks
