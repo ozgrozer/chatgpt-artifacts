@@ -1,6 +1,6 @@
 import { useRef, useEffect, useMemo } from 'react'
 
-import transformImports from './../functions/transformImports'
+import transformImports from '@functions/transformImports'
 
 export default ({ codeBlocks }) => {
   const allItemsCompleted = codeBlocks.every(item => item.complete)

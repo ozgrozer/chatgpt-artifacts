@@ -1,8 +1,8 @@
 import { useRef, useState } from 'react'
 
-import clx from './../functions/clx'
+import clx from '@functions/clx'
 import CodeBlocks from './CodeBlocks'
-import styles from './../styles/Chat.module.scss'
+import styles from '@styles/Chat.module.scss'
 import { AppProvider } from '@contexts/AppContext'
 import PromptAndResponse from './PromptAndResponse'
 

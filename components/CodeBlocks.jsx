@@ -1,11 +1,11 @@
 import io from 'socket.io-client'
-import { useRef, useState, useEffect } from 'react'
+import { useState, useEffect } from 'react'
 import { Prism as SyntaxHighlighter } from 'react-syntax-highlighter'
 import { oneDark } from 'react-syntax-highlighter/dist/cjs/styles/prism'
 
-import clx from './../functions/clx'
+import clx from '@functions/clx'
 import CodeRenderer from './CodeRenderer'
-import styles from './../styles/CodeBlocks.module.scss'
+import styles from '@styles/CodeBlocks.module.scss'
 
 export default ({ codeBlocks, sandboxMode, streamFinished, hasCalledBackend }) => {
   const [activeButton, setActiveButton] = useState('')
