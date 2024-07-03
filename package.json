@@ -8,9 +8,9 @@
     "url": "https://github.com/ozgrozer"
   },
   "scripts": {
-    "dev": "next dev",
+    "dev": "nodemon server.js",
     "build": "next build",
-    "start": "next start"
+    "start": "NODE_ENV=production node server.js"
   },
   "dependencies": {
     "next": "^14.2.4",
@@ -20,6 +20,7 @@
     "react-syntax-highlighter": "^15.5.0"
   },
   "devDependencies": {
+    "nodemon": "^3.1.4",
     "sass": "^1.77.6",
     "standard": "^17.1.0"
   }
