@@ -8,9 +8,9 @@
     "url": "https://github.com/ozgrozer"
   },
   "scripts": {
-    "dev": "nodemon server.js",
     "build": "next build",
-    "start": "NODE_ENV=production node server.js"
+    "dev": "nodemon ./server/init.js",
+    "start": "NODE_ENV=production node ./server/init.js"
   },
   "dependencies": {
     "next": "^14.2.4",
