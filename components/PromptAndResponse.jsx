@@ -41,7 +41,10 @@ export default ({ hasCalledBackend }) => {
         throw new Error(`HTTP error! status: ${response.status}`)
       }
 
-      setState({ streamFinished: false })
+      setState({
+        consoleOutput: [],
+        streamFinished: false
+      })
       hasCalledBackend.current = false
 
       const reader = response.body.getReader()

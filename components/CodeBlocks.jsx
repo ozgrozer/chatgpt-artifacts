@@ -9,8 +9,8 @@ import styles from '@styles/CodeBlocks.module.scss'
 import { useAppContext } from '@contexts/AppContext'
 
 export default ({ hasCalledBackend }) => {
-  const { state } = useAppContext()
-  const { codeBlocks, sandboxMode, streamFinished } = state
+  const { state, setState } = useAppContext()
+  const { codeBlocks, sandboxMode, consoleOutput, streamFinished } = state
 
   const [activeButton, setActiveButton] = useState('')
 
@@ -20,11 +20,13 @@ export default ({ hasCalledBackend }) => {
     setActiveButton(codeBlocks[0].language)
   }, [codeBlocks])
 
-  const [output, setOutput] = useState([])
   useEffect(() => {
     const socket = io()
     socket.on('codeBlocks', message => {
-      setOutput(prevMessages => [...prevMessages, message])
+      setState(prevState => ({
+        ...prevState,
+        consoleOutput: [...prevState.consoleOutput, message]
+      }))
     })
     return () => socket.disconnect()
   }, [])
@@ -87,7 +89,7 @@ export default ({ hasCalledBackend }) => {
                 language='bash'
                 className={clx(styles.tabItem, activeButton === 'console' ? styles.active : styles.hidden)}
               >
-                {output.join('\n')}
+                {consoleOutput.join('\n')}
               </SyntaxHighlighter>
               )
             : (
