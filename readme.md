@@ -4,7 +4,7 @@ Bring Claude's Artifacts feature to ChatGPT
 
 ## Preview
 
-<img src="./preview/Screenshot 2024-06-28 at 7.57.19 PM.png" alt="" width="600" />
+https://github.com/ozgrozer/chatgpt-artifacts/assets/651938/abc68e48-2a85-4cb8-a17a-ae795de1ed26
 
 ## Usage
 
