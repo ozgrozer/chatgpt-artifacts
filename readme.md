@@ -39,6 +39,36 @@ Start the app
 npm start
 ```
 
+## Ollama Support
+
+To make it work with your local LLMs like Llama3 or Gemma2 you just need to make a simple update in the code.
+
+Open `/pages/api/chat.js` file
+
+```js
+// change this
+const openai = new OpenAI({
+  apiKey: process.env.OPENAI_API_KEY
+})
+// to this
+const openai = new OpenAI({
+  baseURL: 'http://127.0.0.1:11434/v1'
+})
+
+// change this
+const stream = await openai.chat.completions.create({
+  stream: true,
+  model: 'gpt-4o',
+  messages: conversations[conversationId]
+})
+// to this
+const stream = await openai.chat.completions.create({
+  stream: true,
+  model: 'llama3',
+  messages: conversations[conversationId]
+})
+```
+
 ## License
 
 [GPL-3.0](https://github.com/ozgrozer/chatgpt-artifacts/blob/main/license)
