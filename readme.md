@@ -101,6 +101,33 @@ const stream = await openai.chat.completions.create({
 })
 ```
 
+## Azure OpenAI Support
+
+To make it work with Azure OpenAI, you need to create a resource in the [Azure Portal](https://portal.azure.com/) and then create a deployment in the [Azure OpenAI Studio](https://oai.azure.com/) and get your API key, API version, API endpoint and make a simple update in the code.
+
+Open `/pages/api/chat.js` file
+
+```js
+// change this
+const openai = new OpenAI({
+  apiKey: process.env.OPENAI_API_KEY
+})
+// to this (change the API version if yours is different)
+const openai = new OpenAI({
+  apiKey: process.env.OPENAI_API_KEY,
+  defaultQuery: { 'api-version': '2023-03-15-preview' },
+  defaultHeaders: { 'api-key': process.env.OPENAI_API_KEY },
+  baseURL: 'https://<RESOURCE_NAME>.openai.azure.com/openai/deployments/<DEPLOYMENT_NAME>'
+})
+
+// change your model here
+const stream = await openai.chat.completions.create({
+  stream: true,
+  model: 'gpt-4o',
+  messages: conversations[conversationId]
+})
+```
+
 ## License
 
 [GPL-3.0](https://github.com/ozgrozer/chatgpt-artifacts/blob/main/license)
